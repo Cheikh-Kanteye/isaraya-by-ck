@@ -1,8 +1,9 @@
 import { useProducts } from '@/hooks/queries';
-import { ProductCard } from './ProductCard';
+import { ProductCard } from '@/components/products/ProductCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import { QueryErrorBoundary } from '@/components/shared/QueryErrorBoundary';
 
 interface ProductGridProps {
   categoryId?: string;
@@ -63,11 +64,13 @@ export function ProductGrid({
   }
 
   return (
+    <QueryErrorBoundary>
     <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ${className}`}>
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>
+    </QueryErrorBoundary>
   );
 }
 

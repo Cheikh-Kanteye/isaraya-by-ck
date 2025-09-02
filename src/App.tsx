@@ -29,6 +29,7 @@ import PaymentStatusPage from "./pages/PaymentStatusPage"; // Import PaymentStat
 import { OrderSuccessToast } from "./components/shared/OrderSuccessToast"; // Import OrderSuccessToast
 import { useEffect } from "react";
 import { useAuthStore } from "./stores/authStore"; // Import useAuthStore
+import { QueryErrorBoundary } from "./components/shared/QueryErrorBoundary";
 
 function AppContent() {
   const { getCurrentUser, user } = useAuthStore(); // Removed isAuthCheckCompleted
@@ -116,6 +117,7 @@ function AppContent() {
 function App() {
   return (
     <QueryProvider>
+      <QueryErrorBoundary>
       <Router>
         <TooltipProvider>
           <CartProvider>
@@ -123,6 +125,7 @@ function App() {
           </CartProvider>
         </TooltipProvider>
       </Router>
+      </QueryErrorBoundary>
     </QueryProvider>
   );
 }
