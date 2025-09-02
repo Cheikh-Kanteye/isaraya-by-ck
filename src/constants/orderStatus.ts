@@ -1,0 +1,38 @@
+export const ORDER_STATUS = {
+  DRAFT: "DRAFT",
+  PENDING_PAYMENT: "PENDING_PAYMENT",
+  PAYMENT_SUCCESSFUL: "PAYMENT_SUCCESSFUL",
+  PAYMENT_FAILED: "PAYMENT_FAILED",
+  PENDING: "PENDING",
+  CONFIRMED: "CONFIRMED",
+  SHIPPED: "SHIPPED",
+  DELIVERED: "DELIVERED",
+  CANCELLED: "CANCELLED",
+  RETURN_REQUESTED: "RETURN_REQUESTED",
+  RETURN_IN_PROGRESS: "RETURN_IN_PROGRESS",
+  RETURNED: "RETURNED",
+} as const;
+
+export const ORDER_STATUS_LABELS = {
+  [ORDER_STATUS.DRAFT]: "Brouillon",
+  [ORDER_STATUS.PENDING_PAYMENT]: "En attente de paiement",
+  [ORDER_STATUS.PAYMENT_SUCCESSFUL]: "Paiement réussi",
+  [ORDER_STATUS.PAYMENT_FAILED]: "Paiement échoué",
+  [ORDER_STATUS.PENDING]: "En attente",
+  [ORDER_STATUS.CONFIRMED]: "Confirmée",
+  [ORDER_STATUS.SHIPPED]: "Expédiée",
+  [ORDER_STATUS.DELIVERED]: "Livrée",
+  [ORDER_STATUS.CANCELLED]: "Annulée",
+  [ORDER_STATUS.RETURN_REQUESTED]: "Retour demandé",
+  [ORDER_STATUS.RETURN_IN_PROGRESS]: "Retour en cours",
+  [ORDER_STATUS.RETURNED]: "Retournée",
+} as const;
+
+export const ORDER_STATUS_OPTIONS = Object.entries(ORDER_STATUS_LABELS).map(
+  ([value, label]) => ({
+    value,
+    label,
+  })
+);
+
+export type OrderStatus = (typeof ORDER_STATUS)[keyof typeof ORDER_STATUS];

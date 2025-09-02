@@ -1,0 +1,393 @@
+/* Theme iSaraya - Variables CSS - Light Theme */
+:root {
+  /* Centralisé via tokens Tailwind (HSL) */
+  --isaraya-primary: hsl(var(--primary));
+  --isaraya-primary-hover: hsl(var(--primary));
+
+  /* Couleurs de fond - light */
+  --isaraya-secondary: hsl(var(--secondary));
+  --isaraya-dark-bg: hsl(var(--background));
+  --isaraya-card-bg: hsl(var(--card) / 0.9);
+
+  /* Couleurs de texte */
+  --isaraya-text-light: hsl(var(--foreground));
+  --isaraya-text-muted: hsl(var(--muted-foreground));
+
+  /* Bordures et effets */
+  --isaraya-border: hsl(var(--primary) / 0.3);
+  --isaraya-glass: hsl(var(--card) / 0.85);
+}
+
+/* Variables pour le thème sombre (optionnel - pour la bascule) */
+.dark {
+  --isaraya-primary: hsl(var(--primary));
+  --isaraya-primary-hover: hsl(var(--primary));
+  --isaraya-secondary: hsl(var(--secondary));
+  --isaraya-dark-bg: hsl(var(--background));
+  --isaraya-card-bg: hsl(var(--card) / 0.8);
+  --isaraya-text-light: hsl(var(--foreground));
+  --isaraya-text-muted: hsl(var(--muted-foreground));
+  --isaraya-border: hsl(var(--primary) / 0.2);
+  --isaraya-glass: hsl(var(--card) / 0.9);
+}
+/* Override global InstantSearch styles */
+.ais-InstantSearch {
+  background-color: var(--isaraya-dark-bg) !important;
+  color: var(--isaraya-text-light) !important;
+}
+
+/* SearchBox Styling */
+.ais-SearchBox {
+  margin-bottom: 2rem;
+}
+
+.ais-SearchBox-form {
+  position: relative;
+  background: transparent;
+}
+
+.ais-SearchBox-input {
+  width: 100% !important;
+  padding: 12px 16px !important;
+  background: var(--isaraya-glass) !important;
+  border: 1px solid var(--isaraya-border) !important;
+  border-radius: 8px !important;
+  color: var(--isaraya-text-light) !important;
+  font-size: 16px !important;
+  backdrop-filter: blur(10px) !important;
+  transition: all 0.3s ease !important;
+}
+
+.ais-SearchBox-input:focus {
+  outline: none !important;
+  border-color: var(--isaraya-primary) !important;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1) !important;
+}
+
+.ais-SearchBox-input::placeholder {
+  color: var(--isaraya-text-muted) !important;
+}
+
+.ais-SearchBox-submitIcon,
+.ais-SearchBox-resetIcon {
+  fill: var(--isaraya-primary) !important;
+}
+
+/* RefinementList Styling */
+.ais-RefinementList {
+  margin-bottom: 1.5rem;
+}
+
+.ais-RefinementList-list {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ais-RefinementList-item {
+  padding: 8px 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.ais-RefinementList-item:last-child {
+  border-bottom: none !important;
+}
+
+.ais-RefinementList-label {
+  display: flex !important;
+  align-items: center !important;
+  cursor: pointer !important;
+  color: var(--isaraya-text-light) !important;
+  font-size: 14px !important;
+  transition: color 0.2s ease !important;
+  padding: 4px 0 !important;
+}
+
+.ais-RefinementList-label:hover {
+  color: var(--isaraya-primary) !important;
+}
+
+.ais-RefinementList-checkbox {
+  appearance: none !important;
+  width: 16px !important;
+  height: 16px !important;
+  border: 2px solid var(--isaraya-border) !important;
+  border-radius: 3px !important;
+  margin-right: 8px !important;
+  position: relative !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.ais-RefinementList-checkbox:checked {
+  background: var(--isaraya-primary) !important;
+  border-color: var(--isaraya-primary) !important;
+}
+
+.ais-RefinementList-checkbox:checked::after {
+  content: "✓" !important;
+  position: absolute !important;
+  top: -2px !important;
+  left: 1px !important;
+  color: white !important;
+  font-size: 12px !important;
+  font-weight: bold !important;
+}
+
+.ais-RefinementList-labelText {
+  flex: 1 !important;
+}
+
+.ais-RefinementList-count {
+  background: var(--isaraya-primary) !important;
+  color: white !important;
+  padding: 2px 6px !important;
+  border-radius: 10px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  margin-left: 8px !important;
+}
+
+/* ClearRefinements Styling */
+.ais-ClearRefinements-button {
+  width: 100% !important;
+  padding: 8px 16px !important;
+  background: transparent !important;
+  border: 1px solid var(--isaraya-primary) !important;
+  color: var(--isaraya-primary) !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.3s ease !important;
+}
+
+.ais-ClearRefinements-button:hover:not(:disabled) {
+  background: var(--isaraya-primary) !important;
+  color: white !important;
+}
+
+.ais-ClearRefinements-button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  border-color: var(--isaraya-text-muted) !important;
+  color: var(--isaraya-text-muted) !important;
+}
+
+/* RangeInput Styling */
+.ais-RangeInput-form {
+  display: flex !important;
+  row-gap: 8px !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  column-gap: 0 !important;
+  justify-content: center !important;
+}
+
+.ais-RangeInput-input {
+  flex: 1 !important;
+  padding: 8px 12px !important;
+  background: var(--isaraya-glass) !important;
+  border: 1px solid var(--isaraya-border) !important;
+  border-radius: 4px !important;
+  color: var(--isaraya-text-light) !important;
+  font-size: 14px !important;
+}
+
+.ais-RangeInput-input:focus {
+  outline: none !important;
+  border-color: var(--isaraya-primary) !important;
+}
+
+.ais-RangeInput-input::placeholder {
+  color: var(--isaraya-text-muted) !important;
+}
+
+.ais-RangeInput-submit {
+  padding: 8px 12px !important;
+  background: var(--isaraya-primary) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: background-color 0.3s ease !important;
+  width: 100%;
+}
+
+.ais-RangeInput-submit:hover {
+  background: var(--isaraya-primary-hover) !important;
+}
+
+/* Stats Styling */
+.ais-Stats {
+  color: var(--isaraya-text-muted) !important;
+  font-size: 14px !important;
+}
+
+/* SortBy Styling */
+.ais-SortBy-select {
+  padding: 8px 12px !important;
+  background: var(--isaraya-glass) !important;
+  border: 1px solid var(--isaraya-border) !important;
+  border-radius: 6px !important;
+  color: var(--isaraya-text-light) !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  min-width: 180px !important;
+}
+
+.ais-SortBy-select:focus {
+  outline: none !important;
+  border-color: var(--isaraya-primary) !important;
+}
+
+.ais-SortBy-option {
+  background: var(--isaraya-secondary) !important;
+  color: var(--isaraya-text-light) !important;
+}
+
+/* Hits Styling */
+.ais-Hits {
+  margin-bottom: 2rem;
+}
+
+.ais-Hits-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 1.5rem !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ais-Hits-item {
+  background: var(--isaraya-glass) !important;
+  border: 1px solid var(--isaraya-border) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+  backdrop-filter: blur(10px) !important;
+  padding: 0 !important;
+}
+
+.ais-Hits-item:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+  border-color: var(--isaraya-primary) !important;
+}
+
+/* Pagination Styling */
+.ais-Pagination {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 3rem !important;
+}
+
+.ais-Pagination-list {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ais-Pagination-item {
+  /* Base styling handled by children */
+}
+
+.ais-Pagination-link {
+  display: block !important;
+  padding: 8px 12px !important;
+  background: var(--isaraya-glass) !important;
+  border: 1px solid var(--isaraya-border) !important;
+  color: var(--isaraya-text-light) !important;
+  text-decoration: none !important;
+  border-radius: 6px !important;
+  transition: all 0.3s ease !important;
+  font-size: 14px !important;
+  min-width: 40px !important;
+  text-align: center !important;
+}
+
+.ais-Pagination-link:hover:not(.ais-Pagination-link--disabled) {
+  background: var(--isaraya-primary) !important;
+  border-color: var(--isaraya-primary) !important;
+  color: white !important;
+}
+
+.ais-Pagination-item--selected .ais-Pagination-link {
+  background: var(--isaraya-primary) !important;
+  border-color: var(--isaraya-primary) !important;
+  color: white !important;
+}
+
+.ais-Pagination-link--disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* Highlight Styling */
+.ais-Highlight-highlighted {
+  background: var(--isaraya-primary) !important;
+  color: white !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-weight: 600 !important;
+}
+
+/* Custom Glass Card Classes */
+.glass-card-2 {
+  background: var(--isaraya-glass) !important;
+  border: 1px solid var(--isaraya-border) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px) !important;
+  color: var(--isaraya-text-light) !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .ais-Hits-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ais-RangeInput-form {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .ais-RangeInput-input {
+    width: 100% !important;
+  }
+
+  .ais-SortBy-select {
+    width: 100% !important;
+  }
+
+  .ais-Pagination-link {
+    padding: 6px 8px !important;
+    min-width: 35px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--isaraya-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--isaraya-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--isaraya-primary-hover);
+}

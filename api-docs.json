@@ -1,0 +1,4493 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "description": "Crée un nouveau compte utilisateur et envoie un email de vérification",
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Utilisateur créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "message": "Utilisateur créé avec succès. Veuillez vérifier votre email.",
+                      "user": {
+                        "id": "uuid-string",
+                        "firstName": "Fatou",
+                        "lastName": "Diallo",
+                        "email": "fatou@example.com",
+                        "isActive": false,
+                        "createdAt": "2025-08-29T15:00:00.000Z",
+                        "updatedAt": "2025-08-29T15:00:00.000Z",
+                        "roles": [
+                          {
+                            "id": "role-uuid",
+                            "name": "CLIENT",
+                            "createdAt": "2025-08-29T15:00:00.000Z",
+                            "updatedAt": "2025-08-29T15:00:00.000Z"
+                          }
+                        ]
+                      }
+                    },
+                    "message": "Utilisateur créé avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Données invalides",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Un utilisateur avec cet email existe déjà",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 409,
+                    "message": "Un utilisateur avec cet email existe déjà",
+                    "error": "Conflict",
+                    "code": "USER_ALREADY_EXISTS"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Une erreur est survenue lors de l'inscription",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Enregistrer un nouvel utilisateur",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "description": "Authentifie un utilisateur et retourne un token JWT",
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Connexion réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "accessToken": "jwt-token-string",
+                    "user": {
+                      "id": "uuid-string",
+                      "email": "user@example.com",
+                      "firstName": "John",
+                      "lastName": "Doe",
+                      "roles": [
+                        "USER"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données de connexion invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 400,
+                    "message": "Email ou mot de passe invalide",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Identifiants invalides ou email non vérifié"
+          },
+          "403": {
+            "description": "Email non vérifié",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 403,
+                    "message": "Veuillez vérifier votre email avant de vous connecter",
+                    "error": "Forbidden"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 500,
+                    "message": "Une erreur est survenue lors de la connexion",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Se connecter",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/verify-email": {
+      "get": {
+        "description": "Vérifie l'adresse email avec le token reçu par email",
+        "operationId": "AuthController_verifyEmail",
+        "parameters": [
+          {
+            "name": "token",
+            "required": true,
+            "in": "query",
+            "description": "Token de vérification reçu par email",
+            "schema": {
+              "example": "abc123def456ghi789",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Email vérifié avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Email vérifié avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Token invalide ou expiré"
+          }
+        },
+        "summary": "Vérifier l'adresse email",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/request-password-reset": {
+      "post": {
+        "description": "Envoie un email avec un lien de réinitialisation de mot de passe",
+        "operationId": "AuthController_requestPasswordReset",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestPasswordResetDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Email de réinitialisation envoyé (si l'email existe)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Si cet email existe, un lien de réinitialisation a été envoyé"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Demander une réinitialisation de mot de passe",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/reset-password": {
+      "post": {
+        "description": "Réinitialise le mot de passe avec le token reçu par email",
+        "operationId": "AuthController_resetPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mot de passe réinitialisé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Mot de passe réinitialisé avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Token invalide ou expiré"
+          }
+        },
+        "summary": "Réinitialiser le mot de passe",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/reset-password-form": {
+      "get": {
+        "description": "Réinitialise le mot de passe avec le token reçu par email",
+        "operationId": "AuthController_showResetPasswordForm",
+        "parameters": [
+          {
+            "name": "token",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Form pour Réinitialiser le mot de passe (Pour Test rapide)",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/profile": {
+      "get": {
+        "description": "Retourne les informations du profil de l'utilisateur connecté",
+        "operationId": "AuthController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Profil utilisateur récupéré avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "user": {
+                        "id": "user-uuid",
+                        "email": "fatou@example.com",
+                        "firstName": "Fatou",
+                        "lastName": "Diallo",
+                        "isActive": true,
+                        "createdAt": "2025-08-29T15:00:00.000Z",
+                        "updatedAt": "2025-08-29T15:00:00.000Z",
+                        "roles": [
+                          {
+                            "id": "role-uuid",
+                            "name": "CLIENT",
+                            "createdAt": "2025-08-29T15:00:00.000Z",
+                            "updatedAt": "2025-08-29T15:00:00.000Z"
+                          }
+                        ]
+                      }
+                    },
+                    "message": "Profil utilisateur récupéré avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Obtenir le profil utilisateur",
+        "tags": [
+          "auth"
+        ]
+      },
+      "put": {
+        "description": "Permet à un utilisateur connecté de mettre à jour son profil",
+        "operationId": "AuthController_updateProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profil utilisateur mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "id": "user-uuid",
+                      "email": "fatou@example.com",
+                      "firstName": "Fatou",
+                      "lastName": "Diallo",
+                      "isActive": true,
+                      "createdAt": "2025-08-29T15:00:00.000Z",
+                      "updatedAt": "2025-08-29T15:00:00.000Z",
+                      "roles": [
+                        {
+                          "id": "role-uuid",
+                          "name": "CLIENT"
+                        }
+                      ]
+                    },
+                    "message": "Profil utilisateur mis à jour avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données de mise à jour invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Données invalides",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Utilisateur non trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Utilisateur non trouvé",
+                    "error": "Not Found"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Mettre à jour le profil utilisateur",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/merchant/profile": {
+      "post": {
+        "description": "Permet à un utilisateur avec le rôle MERCHANT de créer son profil complet",
+        "operationId": "AuthController_createMerchantProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMerchantProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Profil marchand créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "id": "merchant-profile-uuid",
+                      "businessName": "Restaurant Chez Fatou",
+                      "businessType": "RESTAURANT",
+                      "businessAddress": "123 Rue de la Paix, Dakar",
+                      "businessPhone": "+221701234567",
+                      "businessEmail": "contact@chezfatou.sn",
+                      "description": "Restaurant traditionnel sénégalais",
+                      "website": "https://chezfatou.sn",
+                      "logoUrl": "https://cloudinary.com/logo.jpg",
+                      "status": "PENDING",
+                      "mobileMoneyDetails": {
+                        "orangeMoneyNumber": "+221701234567",
+                        "waveMoneyNumber": "+221701234568"
+                      },
+                      "userId": "user-uuid",
+                      "user": {
+                        "id": "user-uuid",
+                        "email": "fatou@example.com",
+                        "firstName": "Fatou",
+                        "lastName": "Diallo",
+                        "phone": "+221701234567"
+                      },
+                      "createdAt": "2025-08-29T12:00:00.000Z",
+                      "updatedAt": "2025-08-29T12:00:00.000Z"
+                    },
+                    "message": "Profil marchand créé avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides ou utilisateur sans rôle MERCHANT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Données invalides",
+                    "error": "MerchantProfileCreationError"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Unauthorized",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Un profil marchand existe déjà pour cet utilisateur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 409,
+                    "message": "Un profil marchand existe déjà pour cet utilisateur",
+                    "error": "MerchantProfileCreationError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Créer un profil marchand",
+        "tags": [
+          "auth"
+        ]
+      },
+      "put": {
+        "description": "Permet à un marchand de mettre à jour son profil",
+        "operationId": "AuthController_updateMerchantProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMerchantProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profil marchand mis à jour avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "id": "merchant-profile-uuid",
+                      "businessName": "Restaurant Chez Fatou",
+                      "businessType": "RESTAURANT",
+                      "businessAddress": "123 Rue de la Paix, Dakar",
+                      "businessPhone": "+221701234567",
+                      "businessEmail": "contact@chezfatou.sn",
+                      "description": "Restaurant traditionnel sénégalais",
+                      "website": "https://chezfatou.sn",
+                      "logoUrl": "https://cloudinary.com/logo.jpg",
+                      "status": "PENDING",
+                      "mobileMoneyDetails": {
+                        "orangeMoneyNumber": "+221701234567",
+                        "waveMoneyNumber": "+221701234568"
+                      },
+                      "userId": "user-uuid",
+                      "user": {
+                        "id": "user-uuid",
+                        "email": "fatou@example.com",
+                        "firstName": "Fatou",
+                        "lastName": "Diallo",
+                        "phone": "+221701234567"
+                      },
+                      "createdAt": "2025-08-29T12:00:00.000Z",
+                      "updatedAt": "2025-08-29T12:00:00.000Z"
+                    },
+                    "message": "Profil marchand mis à jour avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données de mise à jour invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Données invalides",
+                    "error": "MerchantProfileUpdateError"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Unauthorized",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Profil marchand non trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Profil marchand non trouvé",
+                    "error": "MerchantProfileNotFoundError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Mettre à jour le profil marchand",
+        "tags": [
+          "auth"
+        ]
+      },
+      "get": {
+        "description": "Récupère le profil marchand de l'utilisateur connecté",
+        "operationId": "AuthController_getMerchantProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Profil marchand récupéré avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "id": "merchant-profile-uuid",
+                      "businessName": "Restaurant Chez Fatou",
+                      "businessType": "RESTAURANT",
+                      "businessAddress": "123 Rue de la Paix, Dakar",
+                      "businessPhone": "+221701234567",
+                      "businessEmail": "contact@chezfatou.sn",
+                      "description": "Restaurant traditionnel sénégalais",
+                      "website": "https://chezfatou.sn",
+                      "logoUrl": "https://cloudinary.com/logo.jpg",
+                      "status": "PENDING",
+                      "mobileMoneyDetails": {
+                        "orangeMoneyNumber": "+221701234567",
+                        "waveMoneyNumber": "+221701234568"
+                      },
+                      "userId": "user-uuid",
+                      "user": {
+                        "id": "user-uuid",
+                        "email": "fatou@example.com",
+                        "firstName": "Fatou",
+                        "lastName": "Diallo",
+                        "phone": "+221701234567"
+                      },
+                      "createdAt": "2025-08-29T12:00:00.000Z",
+                      "updatedAt": "2025-08-29T12:00:00.000Z"
+                    },
+                    "message": "Profil marchand récupéré avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Unauthorized",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Profil marchand non trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Profil marchand non trouvé",
+                    "error": "MerchantProfileNotFoundError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Obtenir le profil marchand",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/merchant/profiles": {
+      "get": {
+        "description": "Permet à un admin de récupérer tous les profils marchands",
+        "operationId": "AuthController_getAllMerchantProfiles",
+        "parameters": [
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "description": "Filtrer par statut",
+            "schema": {
+              "enum": [
+                "PENDING",
+                "APPROVED",
+                "REJECTED",
+                "SUSPENDED"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des profils marchands récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": [
+                      {
+                        "id": "merchant-profile-uuid",
+                        "businessName": "Restaurant Chez Fatou",
+                        "businessType": "RESTAURANT",
+                        "businessAddress": "123 Rue de la Paix, Dakar",
+                        "businessPhone": "+221701234567",
+                        "businessEmail": "contact@chezfatou.sn",
+                        "description": "Restaurant traditionnel sénégalais",
+                        "website": "https://chezfatou.sn",
+                        "logoUrl": "https://cloudinary.com/logo.jpg",
+                        "status": "PENDING",
+                        "mobileMoneyDetails": {
+                          "orangeMoneyNumber": "+221701234567",
+                          "waveMoneyNumber": "+221701234568"
+                        },
+                        "userId": "user-uuid",
+                        "user": {
+                          "id": "user-uuid",
+                          "email": "fatou@example.com",
+                          "firstName": "Fatou",
+                          "lastName": "Diallo",
+                          "phone": "+221701234567"
+                        },
+                        "createdAt": "2025-08-29T12:00:00.000Z",
+                        "updatedAt": "2025-08-29T12:00:00.000Z"
+                      }
+                    ],
+                    "message": "Liste des profils marchands récupérée avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Unauthorized",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Accès non autorisé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 403,
+                    "message": "Accès non autorisé",
+                    "error": "Forbidden"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Lister tous les profils marchands (Admin)",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/merchant/profile/{merchantId}/validate": {
+      "put": {
+        "description": "Permet à un admin de valider ou rejeter un profil marchand",
+        "operationId": "AuthController_validateMerchantProfile",
+        "parameters": [
+          {
+            "name": "merchantId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ValidateMerchantDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profil marchand validé/rejeté avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "id": "merchant-profile-uuid",
+                      "businessName": "Restaurant Chez Fatou",
+                      "businessType": "RESTAURANT",
+                      "businessAddress": "123 Rue de la Paix, Dakar",
+                      "businessPhone": "+221701234567",
+                      "businessEmail": "contact@chezfatou.sn",
+                      "description": "Restaurant traditionnel sénégalais",
+                      "website": "https://chezfatou.sn",
+                      "logoUrl": "https://cloudinary.com/logo.jpg",
+                      "status": "APPROVED",
+                      "mobileMoneyDetails": {
+                        "orangeMoneyNumber": "+221701234567",
+                        "waveMoneyNumber": "+221701234568"
+                      },
+                      "userId": "user-uuid",
+                      "user": {
+                        "id": "user-uuid",
+                        "email": "fatou@example.com",
+                        "firstName": "Fatou",
+                        "lastName": "Diallo",
+                        "phone": "+221701234567"
+                      },
+                      "createdAt": "2025-08-29T12:00:00.000Z",
+                      "updatedAt": "2025-08-29T12:00:00.000Z"
+                    },
+                    "message": "Profil marchand validé/rejeté avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données de validation invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Données invalides",
+                    "error": "MerchantProfileValidationError"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Unauthorized",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Accès non autorisé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 403,
+                    "message": "Accès non autorisé",
+                    "error": "Forbidden"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Profil marchand non trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Profil marchand non trouvé",
+                    "error": "MerchantProfileNotFoundError"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Valider/Rejeter un profil marchand (Admin)",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/admin/stats": {
+      "get": {
+        "description": "Permet à un admin de récupérer des statistiques complètes sur tous les aspects de la plateforme Isaraya",
+        "operationId": "AuthController_getAdminStats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Statistiques globales récupérées avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "users": {
+                        "total": 1250,
+                        "thisMonth": 85,
+                        "lastMonth": 72,
+                        "growth": 18.1,
+                        "byRole": {
+                          "CLIENT": 980,
+                          "MERCHANT": 245,
+                          "ADMIN": 25
+                        },
+                        "activeUsers": 1180,
+                        "inactiveUsers": 70
+                      },
+                      "merchants": {
+                        "total": 245,
+                        "thisMonth": 18,
+                        "pending": 12,
+                        "approved": 220,
+                        "rejected": 13,
+                        "growth": 7.9
+                      },
+                      "orders": {
+                        "total": 5420,
+                        "thisMonth": 380,
+                        "lastMonth": 325,
+                        "growth": 16.9,
+                        "byStatus": {
+                          "DRAFT": 5,
+                          "PENDING_PAYMENT": 15,
+                          "PAYMENT_SUCCESSFUL": 25,
+                          "PAYMENT_FAILED": 8,
+                          "PENDING": 45,
+                          "CONFIRMED": 120,
+                          "SHIPPED": 85,
+                          "DELIVERED": 4950,
+                          "CANCELLED": 142,
+                          "RETURN_REQUESTED": 12,
+                          "RETURN_IN_PROGRESS": 8,
+                          "RETURNED": 5
+                        }
+                      },
+                      "products": {
+                        "total": 3250,
+                        "thisMonth": 125,
+                        "reported": 8,
+                        "lowStock": 45,
+                        "outOfStock": 12,
+                        "byCategory": [
+                          {
+                            "categoryId": "cat-uuid-1",
+                            "categoryName": "Plats Traditionnels",
+                            "count": 850
+                          },
+                          {
+                            "categoryId": "cat-uuid-2",
+                            "categoryName": "Boissons",
+                            "count": 420
+                          },
+                          {
+                            "categoryId": "cat-uuid-3",
+                            "categoryName": "Desserts",
+                            "count": 380
+                          }
+                        ]
+                      },
+                      "revenue": {
+                        "total": 125000000,
+                        "thisMonth": 8500000,
+                        "lastMonth": 7200000,
+                        "growth": 18.1,
+                        "byMonth": [
+                          {
+                            "month": "2025-01",
+                            "amount": 6500000
+                          },
+                          {
+                            "month": "2025-02",
+                            "amount": 7200000
+                          },
+                          {
+                            "month": "2025-03",
+                            "amount": 8500000
+                          }
+                        ]
+                      },
+                      "topMerchants": [
+                        {
+                          "id": "merchant-uuid-1",
+                          "businessName": "Restaurant Chez Fatou",
+                          "revenue": 2500000,
+                          "orders": 180,
+                          "products": 45
+                        },
+                        {
+                          "id": "merchant-uuid-2",
+                          "businessName": "Boulangerie Dakar",
+                          "revenue": 1800000,
+                          "orders": 220,
+                          "products": 32
+                        }
+                      ],
+                      "topProducts": [
+                        {
+                          "id": "prod-uuid-1",
+                          "name": "Thieboudienne Royal",
+                          "totalSold": 450,
+                          "revenue": 6750000,
+                          "merchantName": "Restaurant Chez Fatou"
+                        },
+                        {
+                          "id": "prod-uuid-2",
+                          "name": "Yassa Poulet",
+                          "totalSold": 380,
+                          "revenue": 5700000,
+                          "merchantName": "Restaurant Teranga"
+                        }
+                      ],
+                      "recentActivity": [
+                        {
+                          "id": "activity-1",
+                          "type": "order",
+                          "description": "Nouvelle commande #5421 - 25,000 XOF",
+                          "timestamp": "2025-09-01T10:15:00.000Z"
+                        },
+                        {
+                          "id": "activity-2",
+                          "type": "merchant",
+                          "description": "Nouveau marchand approuvé: Pâtisserie Moderne",
+                          "timestamp": "2025-09-01T09:30:00.000Z"
+                        }
+                      ],
+                      "systemHealth": {
+                        "apiStatus": "operational",
+                        "databaseStatus": "operational",
+                        "paymentStatus": "operational",
+                        "uptime": 99.8
+                      }
+                    },
+                    "message": "Statistiques globales récupérées avec succès",
+                    "statusCode": 200
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Accès non autorisé - Rôle ADMIN requis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 403,
+                    "message": "Accès non autorisé - Rôle ADMIN requis",
+                    "error": "Forbidden"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Une erreur est survenue lors de la récupération des statistiques",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Services indisponibles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 503,
+                    "message": "Un ou plusieurs services sont temporairement indisponibles",
+                    "error": "Service Unavailable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Récupérer les statistiques globales de la plateforme (Admin)",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/admin/users": {
+      "get": {
+        "description": "Permet aux administrateurs de récupérer la liste complète de tous les utilisateurs de la plateforme avec leurs informations détaillées.",
+        "operationId": "AuthController_getAllUsers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Liste des utilisateurs récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": [
+                      {
+                        "id": "674b7697-5198-4cfc-b76e-dc2ca98873f5",
+                        "email": "admin@isaraya.com",
+                        "firstName": "Moussa",
+                        "lastName": "Gueye",
+                        "phone": "+221773456789",
+                        "isActive": true,
+                        "createdAt": "2025-08-27T12:17:23.176Z",
+                        "updatedAt": "2025-09-01T10:20:29.207Z",
+                        "roles": [
+                          {
+                            "id": "fde60c6a-4c39-4d60-98fd-27734f6596ca",
+                            "name": "ADMIN"
+                          }
+                        ],
+                        "merchantProfile": {
+                          "id": "bab7b244-cd58-46db-80f0-fcbdc44c52d8",
+                          "businessName": "Moussa Jardin",
+                          "status": "APPROVED"
+                        }
+                      }
+                    ],
+                    "message": "Liste des utilisateurs récupérée avec succès",
+                    "count": 1,
+                    "statusCode": 200
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Accès non autorisé - Rôle ADMIN requis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 403,
+                    "message": "Accès non autorisé - Rôle ADMIN requis",
+                    "error": "Forbidden"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Une erreur est survenue lors de la récupération des utilisateurs",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Récupérer tous les utilisateurs (Admin uniquement)",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/produit/categories/slug/{slug}": {
+      "get": {
+        "operationId": "ProduitController_findCategoryBySlug",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Obtenir une catégorie par slug",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/categories/{id}": {
+      "get": {
+        "operationId": "ProduitController_findCategoryById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Obtenir une catégorie par ID",
+        "tags": [
+          "produit"
+        ]
+      },
+      "put": {
+        "operationId": "ProduitController_updateCategory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Mettre à jour une catégorie",
+        "tags": [
+          "produit"
+        ]
+      },
+      "delete": {
+        "operationId": "ProduitController_deleteCategory",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Supprimer une catégorie",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/categories": {
+      "get": {
+        "operationId": "ProduitController_findAllCategories",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Lister toutes les catégories",
+        "tags": [
+          "produit"
+        ]
+      },
+      "post": {
+        "operationId": "ProduitController_createCategory",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Créer une catégorie",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/brands/slug/{slug}": {
+      "get": {
+        "operationId": "ProduitController_findBrandBySlug",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Obtenir une marque par slug",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/brands/{id}": {
+      "get": {
+        "operationId": "ProduitController_findBrandById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Obtenir une marque par ID",
+        "tags": [
+          "produit"
+        ]
+      },
+      "put": {
+        "operationId": "ProduitController_updateBrand",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBrandDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Mettre à jour une marque",
+        "tags": [
+          "produit"
+        ]
+      },
+      "delete": {
+        "operationId": "ProduitController_deleteBrand",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Supprimer une marque",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/brands": {
+      "get": {
+        "operationId": "ProduitController_findAllBrands",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Lister toutes les marques",
+        "tags": [
+          "produit"
+        ]
+      },
+      "post": {
+        "operationId": "ProduitController_createBrand",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBrandDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Créer une marque",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/{id}": {
+      "get": {
+        "operationId": "ProduitController_findById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "produit"
+        ]
+      },
+      "put": {
+        "operationId": "ProduitController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProduitDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "produit"
+        ]
+      },
+      "delete": {
+        "operationId": "ProduitController_delete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit": {
+      "get": {
+        "description": "Récupère la liste de tous les produits ou filtre par merchantId si fourni",
+        "operationId": "ProduitController_findAll",
+        "parameters": [
+          {
+            "name": "merchantId",
+            "required": false,
+            "in": "query",
+            "description": "ID du marchand pour filtrer les produits",
+            "schema": {
+              "example": "2a48f7af-0944-4bfb-94ac-f8ef0f1af006",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des produits récupérée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": [
+                      {
+                        "id": "prod-uuid-1",
+                        "name": "Thieboudienne Royal",
+                        "title": "Thieboudienne Royal - Plat Traditionnel",
+                        "sku": "THIEB-001",
+                        "description": "Plat traditionnel sénégalais avec poisson et légumes",
+                        "price": 15000,
+                        "originalPrice": 18000,
+                        "stock": 25,
+                        "rating": 4.5,
+                        "vendorId": "2a48f7af-0944-4bfb-94ac-f8ef0f1af006",
+                        "categoryId": "cat-uuid-1",
+                        "brandId": "brand-uuid-1",
+                        "condition": "neuf",
+                        "status": "disponible",
+                        "tags": [
+                          "traditionnel",
+                          "poisson",
+                          "senegal"
+                        ],
+                        "reports": 0,
+                        "attributes": {
+                          "poids": "500g",
+                          "portions": "2 personnes"
+                        },
+                        "specifications": {
+                          "ingredients": [
+                            "poisson",
+                            "riz",
+                            "légumes"
+                          ],
+                          "allergenes": [
+                            "poisson"
+                          ]
+                        },
+                        "images": [
+                          {
+                            "id": "img-uuid-1",
+                            "url": "https://res.cloudinary.com/isaraya/image/upload/v1/products/thieb-royal.jpg",
+                            "altText": "Thieboudienne Royal",
+                            "productId": "prod-uuid-1"
+                          }
+                        ],
+                        "reviews": [
+                          {
+                            "id": "review-uuid-1",
+                            "rating": 5,
+                            "comment": "Excellent plat traditionnel!",
+                            "userId": "user-uuid-1",
+                            "productId": "prod-uuid-1",
+                            "createdAt": "2025-08-29T14:00:00.000Z",
+                            "updatedAt": "2025-08-29T14:00:00.000Z"
+                          }
+                        ],
+                        "category": {
+                          "id": "cat-uuid-1",
+                          "name": "Plats Traditionnels",
+                          "slug": "plats-traditionnels",
+                          "description": "Cuisine traditionnelle sénégalaise",
+                          "imageUrl": "https://res.cloudinary.com/isaraya/image/upload/v1/categories/traditionnels.jpg",
+                          "parentId": null
+                        },
+                        "brand": {
+                          "id": "brand-uuid-1",
+                          "name": "Restaurant Chez Fatou",
+                          "slug": "chez-fatou",
+                          "logoUrl": "https://res.cloudinary.com/isaraya/image/upload/v1/brands/chez-fatou-logo.jpg"
+                        },
+                        "createdAt": "2025-08-29T15:00:00.000Z",
+                        "updatedAt": "2025-08-29T15:00:00.000Z"
+                      }
+                    ],
+                    "message": "Produits récupérés avec succès",
+                    "count": 1
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Paramètres de requête invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "merchantId invalide",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aucun produit trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Aucun produit trouvé pour ce marchand",
+                    "error": "Not Found"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors de la récupération des produits",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Lister tous les produits ou les produits d'un marchand spécifique",
+        "tags": [
+          "produit"
+        ]
+      },
+      "post": {
+        "description": "Crée un nouveau produit avec toutes ses informations (images, avis, spécifications)",
+        "operationId": "ProduitController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProduitDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Produit créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "message": "Produit créé avec succès.",
+                    "data": {
+                      "id": "prod-uuid-1",
+                      "name": "Thieboudienne Royal",
+                      "title": "Thieboudienne Royal - Plat Traditionnel",
+                      "sku": "THIEB-001",
+                      "description": "Plat traditionnel sénégalais avec poisson et légumes frais",
+                      "price": 15000,
+                      "originalPrice": 18000,
+                      "stock": 25,
+                      "rating": 0,
+                      "vendorId": "2a48f7af-0944-4bfb-94ac-f8ef0f1af006",
+                      "categoryId": "cat-uuid-1",
+                      "brandId": "brand-uuid-1",
+                      "condition": "neuf",
+                      "status": "disponible",
+                      "tags": [
+                        "traditionnel",
+                        "poisson",
+                        "senegal"
+                      ],
+                      "reports": 0,
+                      "attributes": {
+                        "poids": "500g",
+                        "portions": "2 personnes"
+                      },
+                      "specifications": {
+                        "ingredients": [
+                          "poisson",
+                          "riz",
+                          "légumes"
+                        ],
+                        "allergenes": [
+                          "poisson"
+                        ]
+                      },
+                      "images": [
+                        {
+                          "id": "img-uuid-1",
+                          "url": "https://res.cloudinary.com/isaraya/image/upload/v1/products/thieb-royal.jpg",
+                          "altText": "Thieboudienne Royal",
+                          "productId": "prod-uuid-1",
+                          "createdAt": "2025-09-02T10:30:00.000Z",
+                          "updatedAt": "2025-09-02T10:30:00.000Z"
+                        }
+                      ],
+                      "reviews": [],
+                      "category": {
+                        "id": "cat-uuid-1",
+                        "name": "Plats Traditionnels",
+                        "slug": "plats-traditionnels"
+                      },
+                      "brand": {
+                        "id": "brand-uuid-1",
+                        "name": "Restaurant Chez Fatou",
+                        "slug": "chez-fatou"
+                      },
+                      "createdAt": "2025-09-02T10:30:00.000Z",
+                      "updatedAt": "2025-09-02T10:30:00.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données de produit invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Données de validation échouées",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Produit avec ce SKU existe déjà",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 409,
+                    "message": "Un produit avec ce SKU existe déjà.",
+                    "error": "Conflict"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors de la création du produit",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Créer un nouveau produit",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/upload-images": {
+      "post": {
+        "description": "Upload multiple images pour un produit (maximum 10 fichiers)",
+        "operationId": "ProduitController_uploadProductImages",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Images uploadées avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "message": "Images uploadées avec succès",
+                    "data": {
+                      "uploadedImages": [
+                        {
+                          "id": "img-uuid-1",
+                          "url": "https://res.cloudinary.com/isaraya/image/upload/v1/products/thieb-royal-1.jpg",
+                          "publicId": "products/thieb-royal-1",
+                          "altText": "Thieboudienne Royal - Image 1",
+                          "productId": "prod-uuid-1",
+                          "createdAt": "2025-09-02T10:30:00.000Z",
+                          "updatedAt": "2025-09-02T10:30:00.000Z"
+                        },
+                        {
+                          "id": "img-uuid-2",
+                          "url": "https://res.cloudinary.com/isaraya/image/upload/v1/products/thieb-royal-2.jpg",
+                          "publicId": "products/thieb-royal-2",
+                          "altText": "Thieboudienne Royal - Image 2",
+                          "productId": "prod-uuid-1",
+                          "createdAt": "2025-09-02T10:30:00.000Z",
+                          "updatedAt": "2025-09-02T10:30:00.000Z"
+                        }
+                      ],
+                      "count": 2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Fichiers invalides ou trop nombreux",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Maximum 10 fichiers autorisés",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Fichiers trop volumineux",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 413,
+                    "message": "Taille de fichier trop importante (max 5MB par fichier)",
+                    "error": "Payload Too Large"
+                  }
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Type de fichier non supporté",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 415,
+                    "message": "Seuls les formats JPG, PNG, WEBP sont acceptés",
+                    "error": "Unsupported Media Type"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur lors de l'upload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors de l'upload vers Cloudinary",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Upload des images de produits",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/categories/upload-image": {
+      "post": {
+        "operationId": "ProduitController_uploadCategoryImage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Upload d'image de catégorie",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/produit/brands/upload-logo": {
+      "post": {
+        "operationId": "ProduitController_uploadBrandLogo",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Upload de logo de marque",
+        "tags": [
+          "produit"
+        ]
+      }
+    },
+    "/api/orders": {
+      "post": {
+        "operationId": "OrderController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Données pour créer une commande",
+          "content": {
+            "application/json": {
+              "schema": {
+                "example": {
+                  "clientId": "f4c9d13a-8d31-4d7c-9e2f-a1c68c98d789",
+                  "total": 15000,
+                  "user": {
+                    "phone_number": "+221771234567",
+                    "first_name": "Client",
+                    "last_name": "Test"
+                  },
+                  "currency": "XOF",
+                  "firstName": "Client",
+                  "lastName": "Test",
+                  "email": "client.test@example.com",
+                  "phone": "+221771234567",
+                  "location": {
+                    "street": "Commune de Sicap-Liberté 123 Rue de Ngor",
+                    "city": "Dakar",
+                    "postcode": "11000",
+                    "country": "Sénégal",
+                    "latitude": 14.6928,
+                    "longitude": -17.4467
+                  },
+                  "paymentMethod": "Orange Money",
+                  "items": [
+                    {
+                      "produitId": "prod-uuid-1",
+                      "quantity": 2,
+                      "price": 15000
+                    },
+                    {
+                      "produitId": "prod-uuid-2",
+                      "quantity": 1,
+                      "price": 25000
+                    }
+                  ]
+                },
+                "$ref": "#/components/schemas/CreateOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "La commande a été créée et le paiement initié avec succès.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "id": "bc47b104-33db-468b-2644530f256f",
+                      "clientId": "f4c9d13a-8d31-4d7c-9e2f-a1c68c98d789",
+                      "total": 40000,
+                      "status": "PENDING_PAYMENT",
+                      "deliveryDetails": {
+                        "address": {
+                          "street": "Commune de Sicap-Liberté 123 Rue de Ngor",
+                          "city": "Dakar",
+                          "postcode": "11000",
+                          "country": "Sénégal"
+                        },
+                        "phone": "+221701234567",
+                        "instructions": "Sonner à la porte principale"
+                      },
+                      "createdAt": "2025-08-29T14:00:00.000Z",
+                      "paymentUrl": "https://paytech.sn/payment/redirect/abc123"
+                    },
+                    "message": "Commande créée avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requête invalide.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Données de commande invalides",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Timeout - Le service de commandes ne répond pas.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 408,
+                    "message": "Le service de commandes ne répond pas. Veuillez réessayer.",
+                    "error": "Service Timeout"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service de commandes indisponible.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 503,
+                    "message": "Le service de commandes n'est pas disponible",
+                    "error": "Service Unavailable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Créer une nouvelle commande",
+        "tags": [
+          "orders"
+        ]
+      },
+      "get": {
+        "operationId": "OrderController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Liste de toutes les commandes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": [
+                      {
+                        "id": "bc47b104-33db-468b-2644530f256f",
+                        "status": "CONFIRMED",
+                        "total": 40000,
+                        "clientId": "f4c9d13a-8d31-4d7c-9e2f-a1c68c98d789",
+                        "items": [
+                          {
+                            "produitId": "prod-uuid-1",
+                            "quantity": 2,
+                            "price": 15000,
+                            "name": "Thieboudienne"
+                          }
+                        ],
+                        "createdAt": "2025-08-29T15:00:00.000Z",
+                        "updatedAt": "2025-08-29T15:00:00.000Z"
+                      }
+                    ],
+                    "message": "Commandes récupérées avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Timeout du service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 408,
+                    "message": "Le service ne répond pas",
+                    "error": "Service Timeout"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors de la récupération des commandes",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Récupérer toutes les commandes",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/orders/initiate-payment": {
+      "post": {
+        "operationId": "OrderController_initiatePayment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Données pour initier le paiement",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiatePaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Paiement initié avec succès, retourne l'URL de redirection.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "redirectUrl": "https://paytech.sn/payment/checkout/405gzrpmevlks"
+                    },
+                    "message": "Paiement initié avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Échec de l'initiation du paiement.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Échec de l'initiation du paiement.",
+                    "error": "Payment Initiation Failed"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Timeout du service de paiement.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 408,
+                    "message": "Le service de paiement ne répond pas. Veuillez réessayer.",
+                    "error": "Service Timeout"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur interne du serveur lors de l'initiation du paiement.",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Initier un paiement pour une commande",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/orders/status": {
+      "put": {
+        "operationId": "OrderController_updateStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "description": "Données pour mettre à jour le statut de la commande",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Statut de la commande mis à jour avec succès.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "id": "bc47b104-33db-468b-2644530f256f",
+                      "status": "CONFIRMED",
+                      "previousStatus": "PENDING_PAYMENT",
+                      "updatedAt": "2025-08-29T15:00:00.000Z"
+                    },
+                    "message": "Statut mis à jour avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Statut invalide ou transition non autorisée",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Commande non trouvée.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Commande non trouvée",
+                    "error": "Not Found"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Timeout du service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 408,
+                    "message": "Le service de commandes ne répond pas",
+                    "error": "Service Timeout"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors de la mise à jour du statut",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Mettre à jour le statut d'une commande",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/orders/client/{clientId}": {
+      "get": {
+        "operationId": "OrderController_findByClient",
+        "parameters": [
+          {
+            "name": "clientId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des commandes pour le client spécifié.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": [
+                      {
+                        "id": "bc47b104-33db-468b-2644530f256f",
+                        "status": "DELIVERED",
+                        "total": 40000,
+                        "clientId": "f4c9d13a-8d31-4d7c-9e2f-a1c68c98d789",
+                        "items": [
+                          {
+                            "produitId": "prod-uuid-1",
+                            "quantity": 2,
+                            "price": 15000,
+                            "name": "Thieboudienne"
+                          },
+                          {
+                            "produitId": "prod-uuid-2",
+                            "quantity": 1,
+                            "price": 25000,
+                            "name": "Yassa Poulet"
+                          }
+                        ],
+                        "deliveryAddress": {
+                          "street": "Commune de Sicap-Liberté 123 Rue de Ngor",
+                          "city": "Dakar",
+                          "postcode": "11000",
+                          "country": "Sénégal"
+                        },
+                        "createdAt": "2025-08-29T14:00:00.000Z",
+                        "updatedAt": "2025-08-29T15:30:00.000Z"
+                      }
+                    ],
+                    "message": "Commandes client récupérées avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Client non trouvé ou aucune commande.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Aucune commande trouvée pour ce client",
+                    "error": "Not Found"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Timeout du service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 408,
+                    "message": "Le service ne répond pas",
+                    "error": "Service Timeout"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors de la récupération des commandes",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Récupérer les commandes par ID client",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/orders/merchant": {
+      "get": {
+        "description": "Permet à un marchand de récupérer toutes les commandes qu'il a reçues",
+        "operationId": "OrderController_findByMerchant",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Liste des commandes du marchand.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": [
+                      {
+                        "id": "bc47b104-33db-468b-2644530f256f",
+                        "clientId": "f4c9d13a-8d31-4d7c-9e2f-a1c68c98d789",
+                        "status": "CONFIRMED",
+                        "createdAt": "2025-08-29T14:00:00.000Z",
+                        "updatedAt": "2025-08-29T15:30:00.000Z",
+                        "merchantProducts": [
+                          {
+                            "produitId": "prod-uuid-1",
+                            "nom": "Thieboudienne",
+                            "quantity": 2,
+                            "price": 15000,
+                            "amount": 30000,
+                            "product": {
+                              "id": "prod-uuid-1",
+                              "nom": "Thieboudienne",
+                              "prix": 15000,
+                              "merchantId": "2a48f7af-0944-4bfb-94ac-f8ef0f1af006",
+                              "description": "Plat traditionnel sénégalais",
+                              "category": "Plats principaux"
+                            }
+                          },
+                          {
+                            "produitId": "prod-uuid-3",
+                            "nom": "Yassa Poulet",
+                            "quantity": 1,
+                            "price": 25000,
+                            "amount": 25000,
+                            "product": {
+                              "id": "prod-uuid-3",
+                              "nom": "Yassa Poulet",
+                              "prix": 25000,
+                              "merchantId": "2a48f7af-0944-4bfb-94ac-f8ef0f1af006",
+                              "description": "Poulet au citron et oignons",
+                              "category": "Plats principaux"
+                            }
+                          }
+                        ],
+                        "merchantTotal": 55000,
+                        "deliveryDetails": {
+                          "firstName": "Amadou",
+                          "lastName": "Diallo",
+                          "email": "amadou.diallo@example.com",
+                          "phone": "+221771234567",
+                          "location": {
+                            "street": "Commune de Sicap-Liberté 123 Rue de Ngor",
+                            "city": "Dakar",
+                            "postcode": "11000",
+                            "country": "Sénégal",
+                            "latitude": 14.6928,
+                            "longitude": -17.4467
+                          }
+                        },
+                        "paymentMethod": "Orange Money"
+                      }
+                    ],
+                    "message": "Commandes du marchand récupérées avec succès",
+                    "count": 1
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Accès refusé - Rôle MERCHANT requis.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 403,
+                    "message": "Accès refusé. Seuls les marchands peuvent accéder à leurs commandes.",
+                    "error": "Forbidden"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aucune commande trouvée pour ce marchand.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Aucune commande trouvée pour ce marchand",
+                    "error": "Not Found"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Timeout du service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 408,
+                    "message": "Le service ne répond pas",
+                    "error": "Service Timeout"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors de la récupération des commandes du marchand",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Récupérer les commandes reçues par un marchand",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/orders/{id}": {
+      "get": {
+        "operationId": "OrderController_findById",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Détails de la commande.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "id": "bc47b104-33db-468b-2644530f256f",
+                      "clientId": "f4c9d13a-8d31-4d7c-9e2f-a1c68c98d789",
+                      "total": 40000,
+                      "status": "CONFIRMED",
+                      "deliveryDetails": {
+                        "address": {
+                          "street": "Commune de Sicap-Liberté 123 Rue de Ngor",
+                          "city": "Dakar",
+                          "postcode": "11000",
+                          "country": "Sénégal"
+                        },
+                        "phone": "+221701234567",
+                        "instructions": "Sonner à la porte principale"
+                      },
+                      "createdAt": "2025-08-29T14:00:00.000Z"
+                    },
+                    "message": "Commande récupérée avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non autorisé.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 401,
+                    "message": "Token JWT manquant ou invalide",
+                    "error": "Unauthorized"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Commande non trouvée.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 404,
+                    "message": "Commande non trouvée",
+                    "error": "Not Found"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Timeout du service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 408,
+                    "message": "Le service ne répond pas",
+                    "error": "Service Timeout"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors de la récupération de la commande",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Récupérer une commande par ID",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/orders/payment/webhook": {
+      "post": {
+        "operationId": "OrderController_handlePaytechWebhook",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Webhook traité avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "message": "Webhook PayTech traité avec succès"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données webhook invalides",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 400,
+                    "message": "Données webhook PayTech invalides",
+                    "error": "Bad Request"
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Timeout du service de paiement",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 408,
+                    "message": "Le service de paiement ne répond pas",
+                    "error": "Service Timeout"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "statusCode": 500,
+                    "message": "Erreur lors du traitement du webhook",
+                    "error": "Internal Server Error"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Webhook IPN PayTech",
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/api/delivery/missions": {
+      "post": {
+        "operationId": "DeliveryController_createMission",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/api/delivery/missions/{id}": {
+      "get": {
+        "operationId": "DeliveryController_getMission",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/api/delivery/client/missions": {
+      "get": {
+        "operationId": "DeliveryController_getClientMissions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/api/delivery/livreur/missions": {
+      "get": {
+        "operationId": "DeliveryController_getLivreurMissions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/api/delivery/missions/pending": {
+      "get": {
+        "operationId": "DeliveryController_getPendingMissions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/api/delivery/missions/accept": {
+      "post": {
+        "operationId": "DeliveryController_acceptMission",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AcceptMissionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/api/delivery/missions/status": {
+      "put": {
+        "operationId": "DeliveryController_updateMissionStatus",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/api/delivery/missions/{id}/position": {
+      "put": {
+        "operationId": "DeliveryController_updatePosition",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PositionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Delivery"
+        ]
+      }
+    },
+    "/api/upload/image": {
+      "post": {
+        "operationId": "UploadController_uploadImage",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Fichier image (JPG, JPEG, PNG, GIF, SVG)"
+                  },
+                  "folder": {
+                    "type": "string",
+                    "enum": [
+                      "products",
+                      "categories",
+                      "brands",
+                      "profiles",
+                      "misc"
+                    ],
+                    "description": "Le dossier Cloudinary où l'image sera téléchargée",
+                    "default": "misc"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Image téléchargée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "message": "Image téléchargée avec succès.",
+                    "data": {
+                      "publicId": "products/sample_image_id",
+                      "url": "https://res.cloudinary.com/demo/image/upload/products/sample_image_id.jpg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation du fichier échouée ou données invalides"
+          }
+        },
+        "summary": "Télécharger une image sur Cloudinary",
+        "tags": [
+          "upload"
+        ]
+      }
+    },
+    "/api/upload/image/{path}": {
+      "delete": {
+        "operationId": "UploadController_deleteImage",
+        "parameters": [
+          {
+            "name": "publicId",
+            "required": true,
+            "in": "path",
+            "description": "L'ID public de l'image à supprimer",
+            "schema": {
+              "example": "products/sample_image"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Image supprimée avec succès"
+          },
+          "400": {
+            "description": "Erreur lors de la suppression de l'image ou ID public invalide"
+          }
+        },
+        "summary": "Supprimer une image de Cloudinary",
+        "tags": [
+          "upload"
+        ]
+      }
+    },
+    "/api/merchant/stats": {
+      "get": {
+        "description": "Permet à un marchand de récupérer ses statistiques globales depuis tous les services",
+        "operationId": "MerchantController_getMerchantStats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Statistiques du marchand récupérées avec succès.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": true,
+                    "data": {
+                      "revenue": {
+                        "total": 2450000,
+                        "thisMonth": 450000,
+                        "lastMonth": 380000,
+                        "growth": 18.4
+                      },
+                      "orders": {
+                        "total": 156,
+                        "thisMonth": 28,
+                        "lastMonth": 24,
+                        "growth": 16.7,
+                        "byStatus": {
+                          "DELIVERED": 122,
+                          "CONFIRMED": 8,
+                          "PREPARING": 5,
+                          "IN_DELIVERY": 3,
+                          "READY_FOR_PICKUP": 2,
+                          "PENDING_PAYMENT": 1,
+                          "CANCELLED": 15
+                        }
+                      },
+                      "customers": {
+                        "total": 89,
+                        "thisMonth": 15,
+                        "returning": 12,
+                        "newCustomers": 3
+                      },
+                      "products": {
+                        "total": 24,
+                        "active": 21,
+                        "lowStock": 3
+                      },
+                      "topProducts": [
+                        {
+                          "id": 1,
+                          "name": "Produit 1",
+                          "quantity": 10
+                        },
+                        {
+                          "id": 2,
+                          "name": "Produit 2",
+                          "quantity": 8
+                        },
+                        {
+                          "id": 3,
+                          "name": "Produit 3",
+                          "quantity": 6
+                        }
+                      ],
+                      "recentOrders": [
+                        {
+                          "id": 1,
+                          "date": "2023-03-01T12:00:00.000Z",
+                          "total": 100
+                        },
+                        {
+                          "id": 2,
+                          "date": "2023-03-02T12:00:00.000Z",
+                          "total": 200
+                        },
+                        {
+                          "id": 3,
+                          "date": "2023-03-03T12:00:00.000Z",
+                          "total": 300
+                        }
+                      ],
+                      "deliveries": {
+                        "total": 0,
+                        "pending": 0,
+                        "completed": 0,
+                        "failed": 0
+                      },
+                      "notifications": {
+                        "total": 0,
+                        "unread": 0,
+                        "thisMonth": 0
+                      }
+                    },
+                    "message": "Statistiques récupérées avec succès",
+                    "statusCode": 200
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token JWT manquant ou invalide.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "error": "Unauthorized",
+                    "message": "Token JWT manquant ou invalide",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Accès refusé - Rôle MERCHANT requis.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "error": "Forbidden",
+                    "message": "Accès refusé. Seuls les marchands peuvent accéder à leurs statistiques.",
+                    "statusCode": 403
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erreur interne du serveur.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "success": false,
+                    "error": "Internal Server Error",
+                    "message": "Erreur lors de la récupération des statistiques du marchand",
+                    "statusCode": 500
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Récupérer les statistiques du marchand",
+        "tags": [
+          "Merchant"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Isaraya API",
+    "description": "API de la plateforme e-commerce Isaraya",
+    "version": "1.0",
+    "contact": {
+
+    }
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "JWT-auth": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http",
+        "name": "JWT",
+        "description": "Enter JWT token",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Adresse email de l'utilisateur",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Mot de passe (minimum 6 caractères)",
+            "example": "password123",
+            "minLength": 6
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Prénom de l'utilisateur",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Nom de famille de l'utilisateur",
+            "example": "Doe"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role de l'utilisateur",
+            "example": "CLIENT"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Adresse email de l'utilisateur",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Mot de passe de l'utilisateur",
+            "example": "password123"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "RequestPasswordResetDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Adresse email pour laquelle demander la réinitialisation",
+            "example": "user@example.com"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Token de réinitialisation reçu par email",
+            "example": "abc123def456ghi789"
+          },
+          "newPassword": {
+            "type": "string",
+            "description": "Nouveau mot de passe (minimum 6 caractères)",
+            "example": "newpassword123",
+            "minLength": 6
+          }
+        },
+        "required": [
+          "token",
+          "newPassword"
+        ]
+      },
+      "UpdateProfileDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "John",
+            "description": "Prénom de l'utilisateur"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Doe",
+            "description": "Nom de famille de l'utilisateur"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@example.com",
+            "description": "Adresse email de l'utilisateur"
+          },
+          "role": {
+            "type": "string",
+            "example": "MERCHANT",
+            "description": "Rôle de l'utilisateur (CLIENT, MERCHANT, ADMIN)",
+            "enum": [
+              "CLIENT",
+              "MERCHANT",
+              "DELIVER",
+              "ADMIN"
+            ]
+          }
+        }
+      },
+      "MobileMoneyDetailsDto": {
+        "type": "object",
+        "properties": {
+          "orangeMoneyNumber": {
+            "type": "string",
+            "description": "Numéro de téléphone Orange Money",
+            "example": "+221771234567"
+          },
+          "waveMoneyNumber": {
+            "type": "string",
+            "description": "Numéro de téléphone Wave Money",
+            "example": "+221781234567"
+          }
+        }
+      },
+      "CreateMerchantProfileDto": {
+        "type": "object",
+        "properties": {
+          "businessName": {
+            "type": "string",
+            "description": "Nom de l'entreprise",
+            "example": "Restaurant Chez Marcel"
+          },
+          "businessType": {
+            "type": "string",
+            "description": "Type d'entreprise",
+            "enum": [
+              "RESTAURANT",
+              "GROCERY",
+              "PHARMACY",
+              "ELECTRONICS",
+              "CLOTHING",
+              "OTHER"
+            ],
+            "example": "RESTAURANT"
+          },
+          "businessAddress": {
+            "type": "string",
+            "description": "Adresse de l'entreprise",
+            "example": "123 Rue de la Paix, Dakar"
+          },
+          "businessPhone": {
+            "type": "string",
+            "description": "Téléphone de l'entreprise",
+            "example": "+221771234567"
+          },
+          "businessEmail": {
+            "type": "string",
+            "description": "Email de l'entreprise",
+            "example": "contact@chezmarcel.sn"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description de l'entreprise",
+            "example": "Restaurant sénégalais traditionnel depuis 1950"
+          },
+          "website": {
+            "type": "string",
+            "description": "Site web de l'entreprise",
+            "example": "https://www.chezmarcel.sn"
+          },
+          "logoUrl": {
+            "type": "string",
+            "description": "URL du logo de l'entreprise",
+            "example": "https://res.cloudinary.com/demo/image/upload/logo.jpg"
+          },
+          "mobileMoneyDetails": {
+            "description": "Détails de paiement mobile (Orange Money, Wave Money)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MobileMoneyDetailsDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "businessName",
+          "businessType",
+          "businessAddress",
+          "businessPhone",
+          "businessEmail"
+        ]
+      },
+      "UpdateMerchantProfileDto": {
+        "type": "object",
+        "properties": {
+          "businessName": {
+            "type": "string",
+            "description": "Nom de l'entreprise",
+            "example": "Restaurant Chez Marcel"
+          },
+          "businessType": {
+            "type": "string",
+            "description": "Type d'entreprise",
+            "enum": [
+              "RESTAURANT",
+              "GROCERY",
+              "PHARMACY",
+              "ELECTRONICS",
+              "CLOTHING",
+              "OTHER"
+            ],
+            "example": "RESTAURANT"
+          },
+          "businessAddress": {
+            "type": "string",
+            "description": "Adresse de l'entreprise",
+            "example": "123 Rue de la Paix, Dakar"
+          },
+          "businessPhone": {
+            "type": "string",
+            "description": "Téléphone de l'entreprise",
+            "example": "+221771234567"
+          },
+          "businessEmail": {
+            "type": "string",
+            "description": "Email de l'entreprise",
+            "example": "contact@chezmarcel.sn"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description de l'entreprise",
+            "example": "Restaurant sénégalais traditionnel depuis 1950"
+          },
+          "website": {
+            "type": "string",
+            "description": "Site web de l'entreprise",
+            "example": "https://www.chezmarcel.sn"
+          },
+          "logoUrl": {
+            "type": "string",
+            "description": "URL du logo de l'entreprise",
+            "example": "https://res.cloudinary.com/demo/image/upload/logo.jpg"
+          },
+          "mobileMoneyDetails": {
+            "description": "Détails de paiement mobile (Orange Money, Wave Money)",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MobileMoneyDetailsDto"
+              }
+            ]
+          }
+        }
+      },
+      "ValidateMerchantDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Nouveau statut du profil marchand",
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "SUSPENDED"
+            ],
+            "example": "APPROVED"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Raison de la validation/rejet (optionnelle)",
+            "example": "Profil approuvé après vérification des documents"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "ImageDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "URL of the image"
+          },
+          "altText": {
+            "type": "string",
+            "description": "Alt text for the image"
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "ReviewDto": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "number",
+            "description": "Rating of the product (1-5)"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Comment for the review"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who wrote the review"
+          }
+        },
+        "required": [
+          "rating",
+          "userId"
+        ]
+      },
+      "SpecificationDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the specification (e.g., \"Color\")"
+          },
+          "value": {
+            "type": "string",
+            "description": "Value of the specification (e.g., \"Red\")"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      },
+      "CreateProduitDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the product"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the product"
+          },
+          "sku": {
+            "type": "string",
+            "description": "The SKU of the product",
+            "uniqueItems": true
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the product"
+          },
+          "price": {
+            "type": "number",
+            "description": "The price of the product"
+          },
+          "stock": {
+            "type": "number",
+            "description": "The stock quantity of the product"
+          },
+          "images": {
+            "description": "Array of product images",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageDto"
+            }
+          },
+          "rating": {
+            "type": "number",
+            "description": "Rating of the product (0-5)",
+            "default": 0
+          },
+          "categoryId": {
+            "type": "string",
+            "description": "ID of the product category"
+          },
+          "brandId": {
+            "type": "string",
+            "description": "ID of the product brand"
+          },
+          "originalPrice": {
+            "type": "number",
+            "description": "Original price of the product before any discount"
+          },
+          "vendorId": {
+            "type": "string",
+            "description": "ID of the vendor selling the product"
+          },
+          "reports": {
+            "type": "number",
+            "description": "Number of reports against the product",
+            "default": 0
+          },
+          "tags": {
+            "description": "Array of tags associated with the product",
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "condition": {
+            "type": "string",
+            "enum": [
+              "neuf",
+              "occasion",
+              "reconditionne"
+            ],
+            "description": "Condition of the product"
+          },
+          "reviews": {
+            "description": "Array of product reviews",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewDto"
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Additional attributes as key-value pairs"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "disponible",
+              "indisponible",
+              "bientôt disponible"
+            ],
+            "description": "Status of the product"
+          },
+          "specifications": {
+            "description": "Array of product specifications",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecificationDto"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "title",
+          "sku",
+          "description",
+          "price",
+          "stock",
+          "images",
+          "categoryId",
+          "brandId"
+        ]
+      },
+      "UpdateProduitDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the product"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the product"
+          },
+          "sku": {
+            "type": "string",
+            "description": "The SKU of the product"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the product"
+          },
+          "price": {
+            "type": "number",
+            "description": "The price of the product"
+          },
+          "stock": {
+            "type": "number",
+            "description": "The stock quantity of the product"
+          },
+          "images": {
+            "description": "Array of product images",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageDto"
+            }
+          },
+          "rating": {
+            "type": "number",
+            "description": "Rating of the product (0-5)"
+          },
+          "categoryId": {
+            "type": "string",
+            "description": "ID of the product category"
+          },
+          "brandId": {
+            "type": "string",
+            "description": "ID of the product brand"
+          },
+          "originalPrice": {
+            "type": "number",
+            "description": "Original price of the product before any discount"
+          },
+          "vendorId": {
+            "type": "string",
+            "description": "ID of the vendor selling the product"
+          },
+          "reports": {
+            "type": "number",
+            "description": "Number of reports against the product"
+          },
+          "tags": {
+            "description": "Array of tags associated with the product",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "condition": {
+            "type": "string",
+            "enum": [
+              "neuf",
+              "occasion",
+              "reconditionne"
+            ],
+            "description": "Condition of the product"
+          },
+          "reviews": {
+            "description": "Array of product reviews",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReviewDto"
+            }
+          },
+          "attributes": {
+            "type": "object",
+            "description": "Additional attributes as key-value pairs"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "disponible",
+              "indisponible",
+              "bientôt disponible"
+            ],
+            "description": "Status of the product"
+          },
+          "specifications": {
+            "description": "Array of product specifications",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpecificationDto"
+            }
+          }
+        }
+      },
+      "CreateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nom de la catégorie"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Slug de la catégorie (URL friendly)"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description de la catégorie"
+          },
+          "imageUrl": {
+            "type": "string",
+            "description": "URL de l'image de la catégorie"
+          },
+          "parentId": {
+            "type": "string",
+            "description": "ID de la catégorie parent"
+          }
+        },
+        "required": [
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateCategoryDto": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "CreateBrandDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nom de la marque"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Slug de la marque (URL friendly)"
+          },
+          "logoUrl": {
+            "type": "string",
+            "description": "URL du logo de la marque"
+          }
+        },
+        "required": [
+          "name",
+          "slug"
+        ]
+      },
+      "UpdateBrandDto": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "UserInfoDto": {
+        "type": "object",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "example": "+221771234567",
+            "description": "Numéro de téléphone de l'utilisateur"
+          },
+          "first_name": {
+            "type": "string",
+            "example": "Client",
+            "description": "Prénom de l'utilisateur"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Test",
+            "description": "Nom de famille de l'utilisateur"
+          }
+        },
+        "required": [
+          "phone_number",
+          "first_name",
+          "last_name"
+        ]
+      },
+      "LocationDto": {
+        "type": "object",
+        "properties": {
+          "street": {
+            "type": "string",
+            "example": "Commune de Sicap-Liberté 123 Rue de Ngor",
+            "description": "Nom de la rue ou adresse détaillée"
+          },
+          "city": {
+            "type": "string",
+            "example": "Dakar",
+            "description": "Ville de livraison"
+          },
+          "postcode": {
+            "type": "string",
+            "example": "11000",
+            "description": "Code postal"
+          },
+          "country": {
+            "type": "string",
+            "example": "Sénégal",
+            "description": "Pays de livraison"
+          },
+          "latitude": {
+            "type": "number",
+            "example": 14.6928,
+            "description": "Latitude (requis)"
+          },
+          "longitude": {
+            "type": "number",
+            "example": -17.4467,
+            "description": "Longitude (requis)"
+          }
+        },
+        "required": [
+          "latitude",
+          "longitude"
+        ]
+      },
+      "PaymentMethod": {
+        "type": "string",
+        "enum": [
+          "Orange Money",
+          "Wave",
+          "Free Money",
+          "cash_on_delivery"
+        ],
+        "description": "Méthode de paiement"
+      },
+      "DeliveryItemDto": {
+        "type": "object",
+        "properties": {
+          "produitId": {
+            "type": "string",
+            "example": "prod-uuid-1",
+            "description": "ID du produit"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 2,
+            "description": "Quantité du produit"
+          },
+          "price": {
+            "type": "number",
+            "example": 15000,
+            "description": "Prix unitaire du produit"
+          }
+        },
+        "required": [
+          "produitId",
+          "quantity",
+          "price"
+        ]
+      },
+      "CreateOrderDto": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "example": "f4c9d13a-8d31-4d7c-9e2f-a1c68c98d789",
+            "description": "Identifiant du client qui passe la commande (UUID ou string selon ton système)"
+          },
+          "total": {
+            "type": "number",
+            "example": 15000,
+            "description": "Montant total de la commande"
+          },
+          "user": {
+            "description": "Informations utilisateur pour le paiement",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserInfoDto"
+              }
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "example": "XOF",
+            "description": "Devise du paiement"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Client",
+            "description": "Prénom du client"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Test",
+            "description": "Nom du client"
+          },
+          "email": {
+            "type": "string",
+            "example": "client.test@example.com",
+            "description": "Email du client"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+221771234567",
+            "description": "Numéro de téléphone du client"
+          },
+          "location": {
+            "description": "Détails de la localisation de livraison",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LocationDto"
+              }
+            ]
+          },
+          "paymentMethod": {
+            "example": "Orange Money",
+            "description": "Méthode de paiement",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentMethod"
+              }
+            ]
+          },
+          "items": {
+            "description": "Liste des articles avec quantité et prix",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeliveryItemDto"
+            }
+          }
+        },
+        "required": [
+          "clientId",
+          "total",
+          "firstName",
+          "lastName",
+          "email",
+          "phone",
+          "location",
+          "paymentMethod",
+          "items"
+        ]
+      },
+      "InitiatePaymentDto": {
+        "type": "object",
+        "properties": {
+
+        }
+      },
+      "UpdateOrderStatusDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "example": "order-uuid-1234",
+            "description": "Identifiant de la commande à mettre à jour"
+          },
+          "status": {
+            "type": "string",
+            "example": "SHIPPED",
+            "description": "Nouveau statut de la commande",
+            "enum": [
+              "DRAFT",
+              "PENDING_PAYMENT",
+              "PAYMENT_SUCCESSFUL",
+              "PAYMENT_FAILED",
+              "PENDING",
+              "CONFIRMED",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED",
+              "RETURN_REQUESTED",
+              "RETURN_IN_PROGRESS",
+              "RETURNED"
+            ]
+          }
+        },
+        "required": [
+          "orderId",
+          "status"
+        ]
+      },
+      "CreateMissionDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "ID de la commande associée (optionnel)",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "pickupAddress": {
+            "type": "string",
+            "description": "Adresse de ramassage",
+            "example": "123 Rue de la Livraison, 75001 Paris, France"
+          },
+          "pickupLatitude": {
+            "type": "number",
+            "description": "Latitude du point de ramassage",
+            "example": 48.8566,
+            "minimum": -90,
+            "maximum": 90
+          },
+          "pickupLongitude": {
+            "type": "number",
+            "description": "Longitude du point de ramassage",
+            "example": 2.3522,
+            "minimum": -180,
+            "maximum": 180
+          },
+          "destinationAddress": {
+            "type": "string",
+            "description": "Adresse de destination",
+            "example": "456 Avenue du Client, 75002 Paris, France"
+          },
+          "destinationLatitude": {
+            "type": "number",
+            "description": "Latitude du point de destination",
+            "example": 48.8606,
+            "minimum": -90,
+            "maximum": 90
+          },
+          "destinationLongitude": {
+            "type": "number",
+            "description": "Longitude du point de destination",
+            "example": 2.3376,
+            "minimum": -180,
+            "maximum": 180
+          }
+        },
+        "required": [
+          "pickupAddress",
+          "pickupLatitude",
+          "pickupLongitude",
+          "destinationAddress",
+          "destinationLatitude",
+          "destinationLongitude"
+        ]
+      },
+      "AcceptMissionDto": {
+        "type": "object",
+        "properties": {
+          "missionId": {
+            "type": "string",
+            "example": "uuid-de-la-mission"
+          },
+          "livreurId": {
+            "type": "string",
+            "example": "uuid-du-livreur"
+          }
+        },
+        "required": [
+          "missionId",
+          "livreurId"
+        ]
+      },
+      "UpdateStatusDto": {
+        "type": "object",
+        "properties": {
+          "missionId": {
+            "type": "string",
+            "example": "uuid-de-la-mission"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "ASSIGNED",
+              "ACCEPTED",
+              "IN_PROGRESS",
+              "DELIVERED",
+              "CANCELLED"
+            ],
+            "example": "IN_PROGRESS"
+          }
+        },
+        "required": [
+          "missionId",
+          "status"
+        ]
+      },
+      "PositionDto": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "example": 14.6928
+          },
+          "longitude": {
+            "type": "number",
+            "example": -17.4467
+          }
+        },
+        "required": [
+          "latitude",
+          "longitude"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,2692 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "firstname": "John",
+      "lastname": "Doe",
+      "email": "john@example.com",
+      "role": "ADMIN",
+      "updatedAt": "2025-08-06T15:16:01.751Z"
+    },
+    {
+      "id": "2",
+      "firstname": "Jane",
+      "lastname": "Smith",
+      "email": "jane@example.com",
+      "role": "ADMIN"
+    },
+    {
+      "id": "3",
+      "firstname": "Alice",
+      "lastname": "Johnson",
+      "email": "client@example.com",
+      "role": "CLIENT"
+    },
+    {
+      "id": "4",
+      "firstname": "Bob",
+      "lastname": "Brown",
+      "email": "vendor@example.com",
+      "role": "VENDEUR"
+    },
+    {
+      "id": "5",
+      "firstname": "Emma",
+      "lastname": "Wilson",
+      "email": "emma@example.com",
+      "role": "ADMIN"
+    },
+    {
+      "id": "6",
+      "firstname": "Michael",
+      "lastname": "Chen",
+      "email": "michael@example.com",
+      "role": "CLIENT"
+    },
+    {
+      "id": "7",
+      "firstname": "Sarah",
+      "lastname": "Davis",
+      "email": "sarah@example.com",
+      "role": "CLIENT"
+    },
+    {
+      "id": "8",
+      "email": "admin@example.com",
+      "name": "Admin User",
+      "firstname": "Admin",
+      "lastname": "User",
+      "role": "ADMIN",
+      "password": "password123",
+      "createdAt": "2023-10-27T10:00:00Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat1",
+      "name": "High-Tech",
+      "slug": "high-tech",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat1-1",
+      "name": "Ordinateurs",
+      "slug": "ordinateurs",
+      "parentId": "cat1",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat1-2",
+      "name": "Téléphones",
+      "slug": "telephones",
+      "parentId": "cat1",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat2",
+      "name": "Mode",
+      "slug": "mode",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat2-1",
+      "name": "Homme",
+      "slug": "homme",
+      "parentId": "cat2",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat2-2",
+      "name": "Femme",
+      "slug": "femme",
+      "parentId": "cat2",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat3",
+      "name": "Maison",
+      "slug": "maison",
+      "isActive": true,
+      "order": 3
+    },
+    {
+      "id": "cat3-1",
+      "name": "Meubles",
+      "slug": "meubles",
+      "parentId": "cat3",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat3-2",
+      "name": "Électroménager",
+      "slug": "electromenager",
+      "parentId": "cat3",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat4",
+      "name": "Loisirs",
+      "slug": "loisirs",
+      "isActive": true,
+      "order": 4
+    },
+    {
+      "id": "cat4-1",
+      "name": "Jeux vidéo",
+      "slug": "jeux-video",
+      "parentId": "cat4",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat4-2",
+      "name": "Livres",
+      "slug": "livres",
+      "parentId": "cat4",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat5",
+      "name": "Sport",
+      "slug": "sport",
+      "isActive": true,
+      "order": 5
+    },
+    {
+      "id": "cat5-1",
+      "name": "Vêtements de sport",
+      "slug": "vetements-sport",
+      "parentId": "cat5",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat5-2",
+      "name": "Équipement",
+      "slug": "equipement-sport",
+      "parentId": "cat5",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat1-3",
+      "name": "Audio",
+      "slug": "audio",
+      "parentId": "cat1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 3
+    },
+    {
+      "id": "cat2-3",
+      "name": "Enfants",
+      "slug": "enfants",
+      "parentId": "cat2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 3
+    },
+    {
+      "id": "cat3-1-1",
+      "name": "Disques Durs Externes",
+      "slug": "disques-durs-externes",
+      "parentId": "cat3-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat3-1-2",
+      "name": "SSD",
+      "slug": "ssd",
+      "parentId": "cat3-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat3-2-1",
+      "name": "Éclairage Intelligent",
+      "slug": "eclairage-intelligent",
+      "parentId": "cat3-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat3-2-2",
+      "name": "Sécurité Intelligente",
+      "slug": "securite-intelligente",
+      "parentId": "cat3-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat4-1-1",
+      "name": "Consoles Portables",
+      "slug": "consoles-portables",
+      "parentId": "cat4-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat4-1-2",
+      "name": "Consoles de Salon",
+      "slug": "consoles-de-salon",
+      "parentId": "cat4-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat4-2-1",
+      "name": "Manettes",
+      "slug": "manettes",
+      "parentId": "cat4-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat4-2-2",
+      "name": "Casques Gaming",
+      "slug": "casques-gaming",
+      "parentId": "cat4-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat5-1-1",
+      "name": "Chemises",
+      "slug": "chemises-homme",
+      "parentId": "cat5-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat5-1-2",
+      "name": "Pantalons",
+      "slug": "pantalons-homme",
+      "parentId": "cat5-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat5-2-1",
+      "name": "Robes",
+      "slug": "robes",
+      "parentId": "cat5-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat5-2-2",
+      "name": "Jupes",
+      "slug": "jupes",
+      "parentId": "cat5-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat6-1",
+      "name": "Romans",
+      "description": "Romans de fiction et classiques",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 9,
+      "type": "main",
+      "parentId": null
+    },
+    {
+      "id": "cat6-1-1",
+      "name": "Fiction",
+      "slug": "fiction",
+      "parentId": "cat6-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat6-1-2",
+      "name": "Classiques",
+      "slug": "classiques",
+      "parentId": "cat6-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat6-2",
+      "name": "Manuels Scolaires",
+      "description": "Livres éducatifs et manuels",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 10,
+      "type": "main",
+      "parentId": null
+    },
+    {
+      "id": "cat6-2-1",
+      "name": "Manuels Scientifiques",
+      "slug": "manuels-scientifiques",
+      "parentId": "cat6-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat6-2-2",
+      "name": "Manuels Littéraires",
+      "slug": "manuels-litteraires",
+      "parentId": "cat6-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat7-1",
+      "name": "Équipement Sportif",
+      "description": "Équipement pour divers sports",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 11,
+      "type": "main",
+      "parentId": null
+    },
+    {
+      "id": "cat7-1-1",
+      "name": "Équipement de Fitness",
+      "slug": "equipement-fitness",
+      "parentId": "cat7-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat7-1-2",
+      "name": "Équipement de Plein Air",
+      "slug": "equipement-plein-air",
+      "parentId": "cat7-1",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat7-2",
+      "name": "Vêtements de Sport",
+      "description": "Vêtements et accessoires de sport",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 12,
+      "type": "main",
+      "parentId": null
+    },
+    {
+      "id": "cat7-2-1",
+      "name": "Vêtements de Running",
+      "slug": "vetements-running",
+      "parentId": "cat7-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat7-2-2",
+      "name": "Vêtements de Yoga",
+      "slug": "vetements-yoga",
+      "parentId": "cat7-2",
+      "imageUrl": "/placeholder.svg",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat1-4",
+      "name": "Accessoires Informatiques",
+      "slug": "accessoires-informatiques",
+      "parentId": "cat1",
+      "imageUrl": "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+      "isActive": true,
+      "order": 4
+    },
+    {
+      "id": "cat1-4-1",
+      "name": "Claviers",
+      "slug": "claviers",
+      "parentId": "cat1-4",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1664194583917-b0ba07c4ce2a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat1-4-2",
+      "name": "Souris",
+      "slug": "souris",
+      "parentId": "cat1-4",
+      "imageUrl": "https://images.unsplash.com/photo-1629429408209-1f912961dbd8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHNvdXJpc3xlbnwwfHwwfHx8MA%3D%3D",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat2-4",
+      "name": "Accessoires Mode",
+      "slug": "accessoires-mode",
+      "parentId": "cat2",
+      "imageUrl": "https://images.unsplash.com/photo-1514327605112-b887c0e61c0a?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+      "isActive": true,
+      "order": 4
+    },
+    {
+      "id": "cat2-4-1",
+      "name": "Sacs",
+      "slug": "sacs",
+      "parentId": "cat2-4",
+      "imageUrl": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat2-4-2",
+      "name": "Bijoux",
+      "slug": "bijoux",
+      "parentId": "cat2-4",
+      "imageUrl": "https://images.unsplash.com/photo-1606760227091-3dd7e8e667ae?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat3-3",
+      "name": "Décoration",
+      "slug": "decoration",
+      "parentId": "cat3",
+      "imageUrl": "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+      "isActive": true,
+      "order": 3
+    },
+    {
+      "id": "cat3-3-1",
+      "name": "Luminaires",
+      "slug": "luminaires",
+      "parentId": "cat3-3",
+      "imageUrl": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat3-3-2",
+      "name": "Décor Mural",
+      "slug": "decor-mural",
+      "parentId": "cat3-3",
+      "imageUrl": "https://images.unsplash.com/photo-1661249134048-8f8328708fba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGRlY29yJTIwbXVyYWx8ZW58MHx8MHx8fDA%3D",
+      "isActive": true,
+      "order": 2
+    },
+    {
+      "id": "cat8",
+      "name": "Beauté",
+      "slug": "beaute",
+      "isActive": true,
+      "order": 6,
+      "type": "main",
+      "parentId": null
+    },
+    {
+      "id": "cat8-1",
+      "name": "Soins de la Peau",
+      "slug": "soins-peau",
+      "parentId": "cat8",
+      "imageUrl": "https://images.unsplash.com/photo-1600428853876-fb5a850b444f?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "isActive": true,
+      "order": 1
+    },
+    {
+      "id": "cat8-2",
+      "name": "Maquillage",
+      "slug": "maquillage",
+      "parentId": "cat8",
+      "imageUrl": "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "isActive": true,
+      "order": 2
+    }
+  ],
+  "products": [
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "Smartphone X",
+      "title": "Smartphone X - Latest Model",
+      "sku": "SKU-1",
+      "description": "Latest model smartphone with advanced features",
+      "price": 459167.31,
+      "stock": 50,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1580910051074-3eb694886505?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Smartphone X"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-2",
+      "brandId": "brand1",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 459167.31,
+      "vendorId": "1",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "color": "Black",
+        "storage": "128GB",
+        "os": "Android"
+      },
+      "status": "indisponible",
+      "specifications": [
+        {
+          "name": "Screen Size",
+          "value": "6.5 inches"
+        },
+        {
+          "name": "Camera",
+          "value": "48MP"
+        },
+        {
+          "name": "Battery",
+          "value": "4000mAh"
+        }
+      ]
+    },
+    {
+      "id": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Wireless Headphones",
+      "title": "Wireless Headphones - Noise Canceling",
+      "sku": "SKU-2",
+      "description": "Noise-canceling wireless headphones",
+      "price": 131191.44,
+      "stock": 75,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Wireless Headphones"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-3",
+      "brandId": "brand2",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 131191.44,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "color": "White",
+        "connectivity": "Bluetooth 5.0",
+        "batteryLife": "20 hours"
+      },
+      "status": "indisponible",
+      "specifications": [
+        {
+          "name": "Driver Size",
+          "value": "40mm"
+        },
+        {
+          "name": "Noise Cancellation",
+          "value": "Active"
+        },
+        {
+          "name": "Weight",
+          "value": "250g"
+        }
+      ]
+    },
+    {
+      "id": "3f79bb7b-435b-4e11-80c1-00c04fd430c8",
+      "name": "Laptop Pro",
+      "title": "Laptop Pro - High Performance",
+      "sku": "SKU-3",
+      "description": "High-performance laptop for professionals",
+      "price": 852944.44,
+      "stock": 30,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Laptop Pro"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-1",
+      "brandId": "brand1",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 852944.44,
+      "vendorId": "1",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "processor": "Intel i7",
+        "ram": "16GB",
+        "storage": "512GB SSD"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Screen Size",
+          "value": "15.6 inches"
+        },
+        {
+          "name": "Graphics",
+          "value": "NVIDIA RTX 3060"
+        },
+        {
+          "name": "OS",
+          "value": "Windows 11"
+        }
+      ]
+    },
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Smart Watch",
+      "title": "Smart Watch - Fitness Tracker",
+      "sku": "SKU-4",
+      "description": "Fitness tracking smart watch",
+      "price": 163989.34,
+      "stock": 100,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "altText": "Smart Watch"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat2-1",
+      "brandId": "brand3",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 163989.34,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "color": "Silver",
+        "display": "AMOLED",
+        "waterResistance": "5ATM"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Display Size",
+          "value": "1.4 inches"
+        },
+        {
+          "name": "Battery Life",
+          "value": "14 days"
+        },
+        {
+          "name": "Sensors",
+          "value": "Heart Rate, SpO2"
+        }
+      ]
+    },
+    {
+      "id": "987fcde3-1234-5678-9abc-def123456789",
+      "name": "Bluetooth Speaker",
+      "title": "Bluetooth Speaker - Portable",
+      "sku": "SKU-5",
+      "description": "Portable Bluetooth speaker with high-quality sound",
+      "price": 59096.54,
+      "stock": 120,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Bluetooth Speaker"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-3",
+      "brandId": "brand2",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 59096.54,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "color": "Blue",
+        "connectivity": "Bluetooth 5.0",
+        "waterResistance": "IPX7"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Power Output",
+          "value": "20W"
+        },
+        {
+          "name": "Battery Life",
+          "value": "12 hours"
+        },
+        {
+          "name": "Weight",
+          "value": "600g"
+        }
+      ]
+    },
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Gaming Console",
+      "title": "Gaming Console - Next Gen",
+      "sku": "SKU-6",
+      "description": "Next-gen gaming console",
+      "price": 327978.67,
+      "stock": 40,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1617137968427-85924c800a22?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Gaming Console"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat4-2",
+      "brandId": "brand4",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 327978.67,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "storage": "1TB",
+        "controller": "Wireless",
+        "resolution": "4K"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Processor",
+          "value": "Custom AMD"
+        },
+        {
+          "name": "Graphics",
+          "value": "Ray Tracing"
+        },
+        {
+          "name": "Connectivity",
+          "value": "Wi-Fi 6"
+        }
+      ]
+    },
+    {
+      "id": "b2c3d4e5-f678-9012-bcde-f12345678901",
+      "name": "4K TV",
+      "title": "4K TV - 55-inch Smart TV",
+      "sku": "SKU-7",
+      "description": "55-inch 4K Ultra HD Smart TV",
+      "price": 524776.44,
+      "stock": 25,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "4K TV"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-1",
+      "brandId": "brand1",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 524776.44,
+      "vendorId": "1",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "screenSize": "55 inches",
+        "resolution": "4K UHD",
+        "smartFeatures": "Yes"
+      },
+      "status": "bientôt disponible",
+      "specifications": [
+        {
+          "name": "Refresh Rate",
+          "value": "120Hz"
+        },
+        {
+          "name": "HDR",
+          "value": "Dolby Vision"
+        },
+        {
+          "name": "Ports",
+          "value": "4 HDMI, 2 USB"
+        }
+      ]
+    },
+    {
+      "id": "c3d4e5f6-7890-1234-cdef-123456789012",
+      "name": "Wireless Mouse",
+      "title": "Wireless Mouse - Ergonomic",
+      "sku": "SKU-8",
+      "description": "Ergonomic wireless mouse",
+      "price": 19662.11,
+      "stock": 200,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Wireless Mouse"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-1",
+      "brandId": "brand5",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 19662.11,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "color": "Black",
+        "connectivity": "2.4GHz Wireless",
+        "dpi": "1600"
+      },
+      "status": "bientôt disponible",
+      "specifications": [
+        {
+          "name": "Battery Life",
+          "value": "12 months"
+        },
+        {
+          "name": "Buttons",
+          "value": "6"
+        },
+        {
+          "name": "Weight",
+          "value": "100g"
+        }
+      ]
+    },
+    {
+      "id": "d4e5f6g7-8901-2345-def0-123456789123",
+      "name": "Mechanical Keyboard",
+      "title": "Mechanical Keyboard - RGB Gaming",
+      "sku": "SKU-9",
+      "description": "RGB mechanical keyboard for gaming",
+      "price": 85294.34,
+      "stock": 80,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Mechanical Keyboard"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-1",
+      "brandId": "brand5",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 85294.34,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "switchType": "Blue",
+        "lighting": "RGB",
+        "layout": "Full-size"
+      },
+      "status": "bientôt disponible",
+      "specifications": [
+        {
+          "name": "Key Count",
+          "value": "104"
+        },
+        {
+          "name": "Connectivity",
+          "value": "USB"
+        },
+        {
+          "name": "Anti-Ghosting",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "e5f6g7h8-9012-3456-ef01-234567890123",
+      "name": "External Hard Drive",
+      "title": "External Hard Drive - 1TB Portable",
+      "sku": "SKU-10",
+      "description": "1TB portable external hard drive",
+      "price": 52476.54,
+      "stock": 150,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "External Hard Drive"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat3-1",
+      "brandId": "brand3",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 52476.54,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "capacity": "1TB",
+        "connectivity": "USB 3.0",
+        "color": "Black"
+      },
+      "status": "bientôt disponible",
+      "specifications": [
+        {
+          "name": "Speed",
+          "value": "5400 RPM"
+        },
+        {
+          "name": "Weight",
+          "value": "200g"
+        },
+        {
+          "name": "Dimensions",
+          "value": "120x80x15mm"
+        }
+      ]
+    },
+    {
+      "id": "f6g7h8i9-0123-4567-f012-345678901234",
+      "name": "Tablet",
+      "title": "Tablet - 10-inch with Stylus",
+      "sku": "SKU-11",
+      "description": "10-inch tablet with stylus",
+      "price": 229656.34,
+      "stock": 60,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Tablet"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-1",
+      "brandId": "brand1",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 229656.34,
+      "vendorId": "1",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "screenSize": "10 inches",
+        "storage": "64GB",
+        "os": "Android"
+      },
+      "status": "bientôt disponible",
+      "specifications": [
+        {
+          "name": "Resolution",
+          "value": "1920x1200"
+        },
+        {
+          "name": "Battery Life",
+          "value": "10 hours"
+        },
+        {
+          "name": "Processor",
+          "value": "Octa-core"
+        }
+      ]
+    },
+    {
+      "id": "g7h8i9j0-1234-5678-0f12-456789012345",
+      "name": "Smart Home Hub",
+      "title": "Smart Home Hub - Central Control",
+      "sku": "SKU-12",
+      "description": "Central hub for smart home devices",
+      "price": 98393.54,
+      "stock": 90,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Smart Home Hub"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat3-2",
+      "brandId": "brand2",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 98393.54,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "connectivity": "Wi-Fi, Zigbee",
+        "compatibility": "Alexa, Google Home",
+        "color": "White"
+      },
+      "status": "bientôt disponible",
+      "specifications": [
+        {
+          "name": "Voice Assistant",
+          "value": "Built-in"
+        },
+        {
+          "name": "Power",
+          "value": "USB-C"
+        },
+        {
+          "name": "Dimensions",
+          "value": "100x100x30mm"
+        }
+      ]
+    },
+    {
+      "id": "h8i9j0k1-2345-6789-1f23-567890123456",
+      "name": "Wireless Charger",
+      "title": "Wireless Charger - Fast Charging",
+      "sku": "SKU-13",
+      "description": "Fast wireless charging pad",
+      "price": 26236.74,
+      "stock": 180,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Wireless Charger"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-3",
+      "brandId": "brand3",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 26236.74,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "output": "15W",
+        "color": "Black",
+        "compatibility": "Qi-enabled devices"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Charging Speed",
+          "value": "Fast"
+        },
+        {
+          "name": "Cable Length",
+          "value": "1m"
+        },
+        {
+          "name": "Weight",
+          "value": "80g"
+        }
+      ]
+    },
+    {
+      "id": "i9j0k1l2-3456-7890-2f34-678901234567",
+      "name": "Action Camera",
+      "title": "Action Camera - 4K Outdoor",
+      "sku": "SKU-14",
+      "description": "4K action camera for outdoor adventures",
+      "price": 196787.34,
+      "stock": 70,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1617137968427-85924c800a22?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Action Camera"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat4-2",
+      "brandId": "brand4",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 196787.34,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "resolution": "4K",
+        "waterproof": "Up to 10m",
+        "color": "Black"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Frame Rate",
+          "value": "60fps"
+        },
+        {
+          "name": "Battery Life",
+          "value": "2 hours"
+        },
+        {
+          "name": "Storage",
+          "value": "MicroSD up to 128GB"
+        }
+      ]
+    },
+    {
+      "id": "j0k1l2m3-4567-8901-3f45-789012345678",
+      "name": "E-Reader",
+      "title": "E-Reader - Lightweight E-Ink",
+      "sku": "SKU-15",
+      "description": "Lightweight e-reader with e-ink display",
+      "price": 85294.34,
+      "stock": 100,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "E-Reader"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1-1",
+      "brandId": "brand5",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 85294.34,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "screenSize": "6 inches",
+        "storage": "8GB",
+        "color": "Black"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Resolution",
+          "value": "300 PPI"
+        },
+        {
+          "name": "Battery Life",
+          "value": "Weeks"
+        },
+        {
+          "name": "Connectivity",
+          "value": "Wi-Fi"
+        }
+      ]
+    },
+    {
+      "id": "k1l2m3n4-5678-9012-4f56-890123456789",
+      "name": "Smart Thermostat",
+      "title": "Smart Thermostat - Energy Saving",
+      "sku": "SKU-17",
+      "description": "Energy-saving learning thermostat",
+      "price": 65595.74,
+      "stock": 110,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Smart Thermostat"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat3-2",
+      "brandId": "brand2",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 65595.74,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "connectivity": "Wi-Fi",
+        "compatibility": "Alexa, Google Home",
+        "color": "White"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Display",
+          "value": "LCD"
+        },
+        {
+          "name": "Temperature Range",
+          "value": "10-32°C"
+        },
+        {
+          "name": "Power",
+          "value": "Battery or Wired"
+        }
+      ]
+    },
+    {
+      "id": "l2m3n4o5-6789-0123-5f67-901234567890",
+      "name": "Fitness Tracker",
+      "title": "Fitness Tracker - Budget-Friendly",
+      "sku": "SKU-18",
+      "description": "Budget-friendly fitness tracker",
+      "price": 39357.94,
+      "stock": 140,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNtYXJ0JTIwd2F0Y2h8ZW58MHx8MHx8fDA%3D",
+          "altText": "Fitness Tracker"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat2-1",
+      "brandId": "brand3",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 39357.94,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "color": "Black",
+        "display": "OLED",
+        "waterResistance": "IP68"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Battery Life",
+          "value": "7 days"
+        },
+        {
+          "name": "Sensors",
+          "value": "Heart Rate, Step Counter"
+        },
+        {
+          "name": "Weight",
+          "value": "30g"
+        }
+      ]
+    },
+    {
+      "id": "m3n4o5p6-7890-1234-6f78-012345678901",
+      "name": "VR Headset",
+      "title": "VR Headset - Immersive Gaming",
+      "sku": "SKU-19",
+      "description": "Virtual reality headset for immersive gaming",
+      "price": 262387.34,
+      "stock": 35,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1617137968427-85924c800a22?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "VR Headset"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat4-2",
+      "brandId": "brand4",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 262387.34,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "resolution": "1832x1920 per eye",
+        "tracking": "6DoF",
+        "color": "Black"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Refresh Rate",
+          "value": "90Hz"
+        },
+        {
+          "name": "FOV",
+          "value": "110°"
+        },
+        {
+          "name": "Weight",
+          "value": "600g"
+        }
+      ]
+    },
+    {
+      "id": "n4o5p6q7-8901-2345-7f89-123456789012",
+      "name": "Smart Bulb",
+      "title": "Smart Bulb - Color-Changing LED",
+      "sku": "SKU-20",
+      "description": "Color-changing smart LED bulb",
+      "price": 16398.94,
+      "stock": 200,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Smart Bulb"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat3-2",
+      "brandId": "brand2",
+      "createdAt": "2025-07-31T10:00:00.000Z",
+      "updatedAt": "2025-07-31T10:00:00.000Z",
+      "originalPrice": 16398.94,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "wattage": "10W",
+        "connectivity": "Wi-Fi",
+        "compatibility": "Alexa, Google Home"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Lumens",
+          "value": "800"
+        },
+        {
+          "name": "Color Temperature",
+          "value": "2700K-6500K"
+        },
+        {
+          "name": "Lifespan",
+          "value": "25000 hours"
+        }
+      ]
+    },
+    {
+      "id": "o5p6q7r8-9012-3456-8f90-234567890123",
+      "name": "T-shirt Coton Bio",
+      "title": "T-shirt Coton Bio - Organic Cotton",
+      "sku": "SKU-21",
+      "description": "T-shirt en coton 100% biologique, doux et confortable.",
+      "price": 16398.93,
+      "stock": 150,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHNtYXJ0JTIwd2F0Y2h8ZW58MHx8MHx8fDA%3D",
+          "altText": "T-shirt Coton Bio"
+        }
+      ],
+      "rating": 4.8,
+      "categoryId": "cat5-1",
+      "brandId": "brand6",
+      "createdAt": "2025-08-01T09:00:00.000Z",
+      "updatedAt": "2025-08-01T09:00:00.000Z",
+      "originalPrice": 16398.93,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "material": "100% Organic Cotton",
+        "color": "White",
+        "size": "M"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Fit",
+          "value": "Regular"
+        },
+        {
+          "name": "Care",
+          "value": "Machine Washable"
+        },
+        {
+          "name": "Weight",
+          "value": "150g"
+        }
+      ]
+    },
+    {
+      "id": "p6q7r8s9-0123-4567-9f01-345678901234",
+      "name": "Livre: Le Seigneur des Anneaux",
+      "title": "Livre: Le Seigneur des Anneaux - Collector",
+      "sku": "SKU-22",
+      "description": "Édition collector du classique de J.R.R. Tolkien.",
+      "price": 22958.5,
+      "stock": 80,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Livre: Le Seigneur des Anneaux"
+        }
+      ],
+      "rating": 4.9,
+      "categoryId": "cat6-1",
+      "brandId": "brand7",
+      "createdAt": "2025-08-01T10:00:00.000Z",
+      "updatedAt": "2025-08-01T10:00:00.000Z",
+      "originalPrice": 22958.5,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "format": "Hardcover",
+        "language": "French",
+        "pages": "1200"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Edition",
+          "value": "Collector"
+        },
+        {
+          "name": "ISBN",
+          "value": "978-1234567890"
+        },
+        {
+          "name": "Weight",
+          "value": "1.5kg"
+        }
+      ]
+    },
+    {
+      "id": "q7r8s9t0-1234-5678-0f12-456789012345",
+      "name": "Raquette de Tennis Pro",
+      "title": "Raquette de Tennis Pro - Professional",
+      "sku": "SKU-23",
+      "description": "Raquette de tennis professionnelle pour joueurs avancés.",
+      "price": 98393.55,
+      "stock": 30,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1617137968427-85924c800a22?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Raquette de Tennis Pro"
+        }
+      ],
+      "rating": 4.7,
+      "categoryId": "cat7-1",
+      "brandId": "brand8",
+      "createdAt": "2025-08-01T11:00:00.000Z",
+      "updatedAt": "2025-08-01T11:00:00.000Z",
+      "originalPrice": 98393.55,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "material": "Carbon Fiber",
+        "weight": "300g",
+        "gripSize": "4 3/8"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Head Size",
+          "value": "100 sq in"
+        },
+        {
+          "name": "String Pattern",
+          "value": "16x19"
+        },
+        {
+          "name": "Balance",
+          "value": "Head Light"
+        }
+      ]
+    },
+    {
+      "id": "r8s9t0u1-2345-6789-1f23-567890123456",
+      "name": "Xavier Duran",
+      "title": "Xavier Duran - Refurbished",
+      "sku": "Qui excepturi conseq",
+      "description": "Rem error consequatu",
+      "price": 17000,
+      "stock": 19,
+      "images": [
+        {
+          "url": "https://plus.unsplash.com/premium_photo-1664392147011-2a720f214e01?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D",
+          "altText": "Xavier Duran"
+        }
+      ],
+      "rating": 4.5,
+      "categoryId": "cat1",
+      "brandId": "brand4",
+      "createdAt": "2025-08-03T23:06:14.631Z",
+      "updatedAt": "2025-08-03T23:06:54.146Z",
+      "originalPrice": 20000,
+      "vendorId": "1",
+      "tags": [],
+      "condition": "reconditionne",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "type": "Unknown",
+        "color": "Silver",
+        "condition": "Refurbished"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Unknown Spec",
+          "value": "N/A"
+        },
+        {
+          "name": "Warranty",
+          "value": "6 months"
+        },
+        {
+          "name": "Weight",
+          "value": "N/A"
+        }
+      ]
+    },
+    {
+      "id": "s9t0u1v2-3456-7890-2f34-678901234567",
+      "name": "Clavier Ergonomique",
+      "title": "Clavier Ergonomique - Comfort",
+      "sku": "SKU-24",
+      "description": "Clavier ergonomique avec repose-poignets pour un confort optimal.",
+      "price": 45916.73,
+      "stock": 100,
+      "images": [
+        {
+          "url": "https://plus.unsplash.com/premium_photo-1664194583917-b0ba07c4ce2a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "altText": "Clavier Ergonomique"
+        }
+      ],
+      "rating": 4.6,
+      "categoryId": "cat1-4-1",
+      "brandId": "brand5",
+      "createdAt": "2025-08-02T10:00:00.000Z",
+      "updatedAt": "2025-08-02T10:00:00.000Z",
+      "originalPrice": 45916.73,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "layout": "Ergonomic",
+        "connectivity": "USB",
+        "color": "Black"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Key Type",
+          "value": "Membrane"
+        },
+        {
+          "name": "Wrist Rest",
+          "value": "Included"
+        },
+        {
+          "name": "Weight",
+          "value": "800g"
+        }
+      ]
+    },
+    {
+      "id": "t0u1v2w3-4567-8901-3f45-789012345678",
+      "name": "Souris Optique Sans Fil",
+      "title": "Souris Optique Sans Fil - High Precision",
+      "sku": "SKU-25",
+      "description": "Souris optique sans fil avec capteur haute précision.",
+      "price": 26236.74,
+      "stock": 150,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1514254651968-1c86261335e9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "altText": "Souris Optique Sans Fil"
+        }
+      ],
+      "rating": 4.7,
+      "categoryId": "cat1-4-2",
+      "brandId": "brand5",
+      "createdAt": "2025-08-02T10:00:00.000Z",
+      "updatedAt": "2025-08-02T10:00:00.000Z",
+      "originalPrice": 26236.74,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "sensor": "Optical",
+        "dpi": "3200",
+        "color": "Black"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Battery Life",
+          "value": "18 months"
+        },
+        {
+          "name": "Buttons",
+          "value": "5"
+        },
+        {
+          "name": "Weight",
+          "value": "90g"
+        }
+      ]
+    },
+    {
+      "id": "u1v2w3x4-5678-9012-4f56-890123456789",
+      "name": "Sac à Dos en Cuir",
+      "title": "Sac à Dos en Cuir - Modern Style",
+      "sku": "SKU-26",
+      "description": "Sac à dos élégant en cuir véritable pour un style moderne.",
+      "price": 98393.55,
+      "stock": 50,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Sac à Dos en Cuir"
+        }
+      ],
+      "rating": 4.8,
+      "categoryId": "cat2-4-1",
+      "brandId": "brand6",
+      "createdAt": "2025-08-02T11:00:00.000Z",
+      "updatedAt": "2025-08-02T11:00:00.000Z",
+      "originalPrice": 98393.55,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "material": "Genuine Leather",
+        "color": "Brown",
+        "capacity": "20L"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Compartments",
+          "value": "3"
+        },
+        {
+          "name": "Weight",
+          "value": "1.2kg"
+        },
+        {
+          "name": "Dimensions",
+          "value": "40x30x15cm"
+        }
+      ]
+    },
+    {
+      "id": "v2w3x4y5-6789-0123-5f67-901234567890",
+      "name": "Collier en Argent",
+      "title": "Collier en Argent - Minimalist",
+      "sku": "SKU-27",
+      "description": "Collier élégant en argent sterling avec pendentif minimaliste.",
+      "price": 39357.94,
+      "stock": 80,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1714734071000-5546c90735cd?q=80&w=486&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "altText": "Collier en Argent"
+        }
+      ],
+      "rating": 4.9,
+      "categoryId": "cat2-4-2",
+      "brandId": "brand6",
+      "createdAt": "2025-08-02T11:00:00.000Z",
+      "updatedAt": "2025-08-02T11:00:00.000Z",
+      "originalPrice": 39357.94,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "material": "Sterling Silver",
+        "length": "45cm",
+        "color": "Silver"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Pendant Size",
+          "value": "10mm"
+        },
+        {
+          "name": "Clasp Type",
+          "value": "Lobster"
+        },
+        {
+          "name": "Weight",
+          "value": "15g"
+        }
+      ]
+    },
+    {
+      "id": "w3x4y5z6-7890-1234-6f78-012345678901",
+      "name": "Lampe de Table Design",
+      "title": "Lampe de Table Design - LED Adjustable",
+      "sku": "SKU-28",
+      "description": "Lampe de table moderne avec éclairage LED réglable.",
+      "price": 65595.74,
+      "stock": 90,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Lampe de Table Design"
+        }
+      ],
+      "rating": 4.7,
+      "categoryId": "cat3-3-1",
+      "brandId": "brand2",
+      "createdAt": "2025-08-02T12:00:00.000Z",
+      "updatedAt": "2025-08-02T12:00:00.000Z",
+      "originalPrice": 65595.74,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "material": "Aluminum",
+        "color": "Black",
+        "lightType": "LED"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Brightness",
+          "value": "800 Lumens"
+        },
+        {
+          "name": "Color Temperature",
+          "value": "3000K-6000K"
+        },
+        {
+          "name": "Height",
+          "value": "40cm"
+        }
+      ]
+    },
+    {
+      "id": "x4y5z6a7-8901-2345-7f89-123456789012",
+      "name": "Tableau Abstrait",
+      "title": "Tableau Abstrait - Elegant Decor",
+      "sku": "SKU-29",
+      "description": "Tableau d'art abstrait pour une décoration intérieure élégante.",
+      "price": 131191.44,
+      "stock": 40,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1661249134048-8f8328708fba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGRlY29yJTIwbXVyYWx8ZW58MHx8MHx8fDA%3D",
+          "altText": "Tableau Abstrait"
+        }
+      ],
+      "rating": 4.8,
+      "categoryId": "cat3-3-2",
+      "brandId": "brand9",
+      "createdAt": "2025-08-02T12:00:00.000Z",
+      "updatedAt": "2025-08-02T12:00:00.000Z",
+      "originalPrice": 131191.44,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "material": "Canvas",
+        "style": "Abstract",
+        "color": "Multicolor"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Dimensions",
+          "value": "80x60cm"
+        },
+        {
+          "name": "Frame",
+          "value": "Wooden"
+        },
+        {
+          "name": "Weight",
+          "value": "2kg"
+        }
+      ]
+    },
+    {
+      "id": "y5z6a7b8-9012-3456-8f90-234567890123",
+      "name": "Crème Hydratante Visage",
+      "title": "Crème Hydratante Visage - Moisturizing",
+      "sku": "SKU-30",
+      "description": "Crème hydratante pour une peau douce et éclatante.",
+      "price": 26236.74,
+      "stock": 120,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1629732047847-50219e9c5aef?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y3IlQzMlQThtZSUyMGh5ZHJhdGFudGV8ZW58MHx8MHx8fDA%3D",
+          "altText": "Crème Hydratante Visage"
+        }
+      ],
+      "rating": 4.6,
+      "categoryId": "cat8-1",
+      "brandId": "brand10",
+      "createdAt": "2025-08-02T13:00:00.000Z",
+      "updatedAt": "2025-08-02T13:00:00.000Z",
+      "originalPrice": 26236.74,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "volume": "50ml",
+        "skinType": "All",
+        "scent": "Unscented"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Ingredients",
+          "value": "Aloe Vera, Hyaluronic Acid"
+        },
+        {
+          "name": "Usage",
+          "value": "Daily"
+        },
+        {
+          "name": "Shelf Life",
+          "value": "24 months"
+        }
+      ]
+    },
+    {
+      "id": "z6a7b8c9-0123-4567-9f01-345678901234",
+      "name": "Palette de Maquillage",
+      "title": "Palette de Maquillage - 12 Shades",
+      "sku": "SKU-31",
+      "description": "Palette de maquillage avec 12 teintes pour un look polyvalent.",
+      "price": 32797.87,
+      "stock": 100,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1687202047790-1261700f0df7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cGFsZXR0ZSUyMG1hcXVpbGxhZ2V8ZW58MHx8MHx8fDA%3D",
+          "altText": "Palette de Maquillage"
+        }
+      ],
+      "rating": 4.7,
+      "categoryId": "cat8-2",
+      "brandId": "brand10",
+      "createdAt": "2025-08-02T13:00:00.000Z",
+      "updatedAt": "2025-08-02T13:00:00.000Z",
+      "originalPrice": 32797.87,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "type": "Eyeshadow",
+        "shadeCount": "12",
+        "finish": "Matte and Shimmer"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Weight",
+          "value": "100g"
+        },
+        {
+          "name": "Mirror",
+          "value": "Included"
+        },
+        {
+          "name": "Applicator",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "a7b8c9d0-1234-5678-0f12-456789012345",
+      "name": "Test Smart Speaker",
+      "title": "Test Smart Speaker - Voice Assistant",
+      "sku": "SKU-e4ac",
+      "description": "Compact smart speaker with voice assistant",
+      "price": 39357.94,
+      "stock": 130,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1549400854-b4300f444934?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fFRlc3QlMjBTbWFydCUyMFNwZWFrZXJ8ZW58MHx8MHx8fDA%3D",
+          "altText": "Test Smart Speaker"
+        }
+      ],
+      "rating": 4.6,
+      "categoryId": "cat1-3",
+      "brandId": "brand2",
+      "createdAt": "2025-08-03T14:00:00.000Z",
+      "updatedAt": "2025-08-03T14:00:00.000Z",
+      "originalPrice": 45916.73,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "connectivity": "Wi-Fi, Bluetooth",
+        "color": "Black",
+        "voiceAssistant": "Yes"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Power Output",
+          "value": "15W"
+        },
+        {
+          "name": "Dimensions",
+          "value": "90x90x100mm"
+        },
+        {
+          "name": "Weight",
+          "value": "500g"
+        }
+      ]
+    },
+    {
+      "id": "b8c9d0e1-2345-6789-1f23-567890123456",
+      "name": "Refurbished Laptop",
+      "title": "Refurbished Laptop - High Performance",
+      "sku": "SKU-351b",
+      "description": "Refurbished high-performance laptop for professionals",
+      "price": 524776.44,
+      "stock": 20,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600",
+          "altText": "Refurbished Laptop"
+        }
+      ],
+      "rating": 4.4,
+      "categoryId": "cat1-1",
+      "brandId": "brand1",
+      "createdAt": "2025-08-03T15:00:00.000Z",
+      "updatedAt": "2025-08-03T15:00:00.000Z",
+      "originalPrice": 590955.54,
+      "vendorId": "1",
+      "tags": [],
+      "condition": "reconditionne",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "processor": "Intel i5",
+        "ram": "8GB",
+        "storage": "256GB SSD"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Screen Size",
+          "value": "14 inches"
+        },
+        {
+          "name": "Graphics",
+          "value": "Integrated"
+        },
+        {
+          "name": "Warranty",
+          "value": "1 year"
+        }
+      ]
+    },
+    {
+      "id": "c9d0e1f2-3456-7890-2f34-678901234567",
+      "name": "Smart Doorbell",
+      "title": "Smart Doorbell - Video & Motion Detection",
+      "sku": "SKU-32",
+      "description": "Video doorbell with motion detection and night vision",
+      "price": 98393.54,
+      "stock": 80,
+      "images": [
+        {
+          "url": "https://plus.unsplash.com/premium_photo-1729571572792-d211af573965?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8U21hcnQlMjBEb29yYmVsbHxlbnwwfHwwfHx8MA%3D%3D",
+          "altText": "Smart Doorbell"
+        }
+      ],
+      "rating": 4.7,
+      "categoryId": "cat3-2",
+      "brandId": "brand2",
+      "createdAt": "2025-08-03T16:00:00.000Z",
+      "updatedAt": "2025-08-03T16:00:00.000Z",
+      "originalPrice": 98393.54,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "resolution": "1080p",
+        "connectivity": "Wi-Fi",
+        "color": "Black"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Field of View",
+          "value": "160°"
+        },
+        {
+          "name": "Power",
+          "value": "Battery or Wired"
+        },
+        {
+          "name": "Night Vision",
+          "value": "Yes"
+        }
+      ]
+    },
+    {
+      "id": "d0e1f2g3-4567-8901-3f45-789012345678",
+      "name": "Portable Projector",
+      "title": "Portable Projector - Home Entertainment",
+      "sku": "SKU-33",
+      "description": "Compact projector for home entertainment",
+      "price": 196787.34,
+      "stock": 50,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1556570836-1b2c15b33119?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fFBvcnRhYmxlJTIwUHJvamVjdG9yfGVufDB8fDB8fHww",
+          "altText": "Portable Projector"
+        }
+      ],
+      "rating": 4.6,
+      "categoryId": "cat1-1",
+      "brandId": "brand1",
+      "createdAt": "2025-08-03T17:00:00.000Z",
+      "updatedAt": "2025-08-03T17:00:00.000Z",
+      "originalPrice": 196787.34,
+      "vendorId": "1",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "resolution": "1080p",
+        "brightness": "2000 Lumens",
+        "connectivity": "HDMI, USB"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Projection Size",
+          "value": "Up to 120 inches"
+        },
+        {
+          "name": "Lamp Life",
+          "value": "50000 hours"
+        },
+        {
+          "name": "Weight",
+          "value": "1.5kg"
+        }
+      ]
+    },
+    {
+      "id": "e1f2g3h4-5678-9012-4f56-890123456789",
+      "name": "Gaming Mouse Pad",
+      "title": "Gaming Mouse Pad - RGB Large",
+      "sku": "SKU-34",
+      "description": "Large RGB gaming mouse pad with non-slip base",
+      "price": 26236.74,
+      "stock": 200,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1671068514669-8134a08ca1a2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Z2FtaW5nJTIwbW91c2UlMjBwYWR8ZW58MHx8MHx8fDA%3D",
+          "altText": "Gaming Mouse Pad"
+        }
+      ],
+      "rating": 4.8,
+      "categoryId": "cat1-4-2",
+      "brandId": "brand5",
+      "createdAt": "2025-08-03T18:00:00.000Z",
+      "updatedAt": "2025-08-03T18:00:00.000Z",
+      "originalPrice": 26236.74,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "size": "Large",
+        "lighting": "RGB",
+        "material": "Cloth"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Dimensions",
+          "value": "800x300mm"
+        },
+        {
+          "name": "Thickness",
+          "value": "4mm"
+        },
+        {
+          "name": "Base",
+          "value": "Non-slip Rubber"
+        }
+      ]
+    },
+    {
+      "id": "f2g3h4i5-6789-0123-5f67-901234567890",
+      "name": "Smart Coffee Maker",
+      "title": "Smart Coffee Maker - Wi-Fi Enabled",
+      "sku": "SKU-35",
+      "description": "Wi-Fi enabled coffee maker with programmable settings",
+      "price": 65595.74,
+      "stock": 90,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1642855739638-e1314626df62?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          "altText": "Smart Coffee Maker"
+        }
+      ],
+      "rating": 4.7,
+      "categoryId": "cat3-3",
+      "brandId": "brand2",
+      "createdAt": "2025-08-03T19:00:00.000Z",
+      "updatedAt": "2025-08-03T19:00:00.000Z",
+      "originalPrice": 65595.74,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "capacity": "1.5L",
+        "connectivity": "Wi-Fi",
+        "color": "Black"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Brew Strength",
+          "value": "Adjustable"
+        },
+        {
+          "name": "Programmable",
+          "value": "Yes"
+        },
+        {
+          "name": "Weight",
+          "value": "2kg"
+        }
+      ]
+    },
+    {
+      "id": "g3h4i5j6-7890-1234-6f78-012345678901",
+      "name": "Running Shoes",
+      "title": "Running Shoes - Lightweight",
+      "sku": "SKU-36",
+      "description": "Lightweight running shoes with cushioned soles",
+      "price": 59096.54,
+      "stock": 100,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cnVubmluZyUyMHNob2VzfGVufDB8fDB8fHww",
+          "altText": "Running Shoes"
+        }
+      ],
+      "rating": 4.8,
+      "categoryId": "cat7-2",
+      "brandId": "brand8",
+      "createdAt": "2025-08-03T20:00:00.000Z",
+      "updatedAt": "2025-08-03T20:00:00.000Z",
+      "originalPrice": 59096.54,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "material": "Mesh",
+        "color": "Blue",
+        "size": "US 9"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Cushioning",
+          "value": "High"
+        },
+        {
+          "name": "Weight",
+          "value": "250g"
+        },
+        {
+          "name": "Sole",
+          "value": "Rubber"
+        }
+      ]
+    },
+    {
+      "id": "h4i5j6k7-8901-2345-7f89-123456789012",
+      "name": "Yoga Mat",
+      "title": "Yoga Mat - Eco-Friendly",
+      "sku": "SKU-37",
+      "description": "Eco-friendly yoga mat with non-slip surface",
+      "price": 32797.87,
+      "stock": 150,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1591291621164-2c6367723315?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8eW9nYSUyMG1hdHxlbnwwfHwwfHx8MA%3D%3D",
+          "altText": "Yoga Mat"
+        }
+      ],
+      "rating": 4.9,
+      "categoryId": "cat7-3",
+      "brandId": "brand8",
+      "createdAt": "2025-08-03T21:00:00.000Z",
+      "updatedAt": "2025-08-03T21:00:00.000Z",
+      "originalPrice": 32797.87,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "material": "Natural Rubber",
+        "color": "Green",
+        "thickness": "6mm"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Dimensions",
+          "value": "183x61cm"
+        },
+        {
+          "name": "Weight",
+          "value": "2.5kg"
+        },
+        {
+          "name": "Surface",
+          "value": "Non-slip"
+        }
+      ]
+    },
+    {
+      "id": "i5j6k7l8-9012-3456-8f90-234567890123",
+      "name": "Wireless Earbuds",
+      "title": "Wireless Earbuds - True Wireless",
+      "sku": "SKU-38",
+      "description": "True wireless earbuds with superior sound quality",
+      "price": 98393.54,
+      "stock": 120,
+      "images": [
+        {
+          "url": "https://images.unsplash.com/photo-1590658268034-7c0786926965?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2lyZWxlc3MlMjBlYXJidWRzfGVufDB8fDB8fHww",
+          "altText": "Wireless Earbuds"
+        }
+      ],
+      "rating": 4.7,
+      "categoryId": "cat1-3",
+      "brandId": "brand2",
+      "createdAt": "2025-08-03T22:00:00.000Z",
+      "updatedAt": "2025-08-03T22:00:00.000Z",
+      "originalPrice": 98393.54,
+      "vendorId": "4",
+      "tags": [],
+      "condition": "neuf",
+      "reports": 0,
+      "reviews": [],
+      "attributes": {
+        "color": "White",
+        "connectivity": "Bluetooth 5.2",
+        "batteryLife": "6 hours"
+      },
+      "status": "disponible",
+      "specifications": [
+        {
+          "name": "Noise Cancellation",
+          "value": "Active"
+        },
+        {
+          "name": "Charging Case",
+          "value": "24 hours"
+        },
+        {
+          "name": "Water Resistance",
+          "value": "IPX4"
+        }
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "id": "order1",
+      "userId": "1",
+      "productId": "1",
+      "vendorId": "1",
+      "productTitle": "Smartphone X",
+      "price": 699.99,
+      "quantity": 1,
+      "status": "EN_PREPARATION",
+      "customerName": "John Doe",
+      "customerPhone": "+1234567890",
+      "customerAddress": "123 Main St, City",
+      "createdAt": "2025-07-31T10:00:00.000Z"
+    },
+    {
+      "id": "order2",
+      "userId": "2",
+      "productId": "2",
+      "vendorId": "4",
+      "productTitle": "Wireless Headphones",
+      "price": 199.99,
+      "quantity": 2,
+      "status": "SHIPPED",
+      "customerName": "Jane Smith",
+      "customerPhone": "+1234567891",
+      "customerAddress": "456 Oak St, City",
+      "createdAt": "2025-07-31T11:00:00.000Z"
+    },
+    {
+      "id": "order3",
+      "userId": "3",
+      "productId": "3",
+      "vendorId": "1",
+      "productTitle": "Laptop Pro",
+      "price": 1299.99,
+      "quantity": 1,
+      "status": "DELIVERED",
+      "customerName": "Alice Johnson",
+      "customerPhone": "+1234567892",
+      "customerAddress": "789 Pine St, City",
+      "createdAt": "2025-07-31T12:00:00.000Z"
+    },
+    {
+      "id": "order4",
+      "userId": "4",
+      "productId": "4",
+      "vendorId": "4",
+      "productTitle": "Smart Watch",
+      "price": 249.99,
+      "quantity": 1,
+      "status": "EN_PREPARATION",
+      "customerName": "Bob Brown",
+      "customerPhone": "+1234567893",
+      "customerAddress": "101 Maple St, City",
+      "createdAt": "2025-07-31T13:00:00.000Z"
+    },
+    {
+      "id": "order5",
+      "userId": "5",
+      "productId": "5",
+      "vendorId": "4",
+      "productTitle": "Bluetooth Speaker",
+      "price": 89.99,
+      "quantity": 3,
+      "status": "SHIPPED",
+      "customerName": "Emma Wilson",
+      "customerPhone": "+1234567894",
+      "customerAddress": "202 Birch St, City",
+      "createdAt": "2025-07-31T14:00:00.000Z"
+    },
+    {
+      "id": "order6",
+      "userId": "6",
+      "productId": "6",
+      "vendorId": "4",
+      "productTitle": "Gaming Console",
+      "price": 499.99,
+      "quantity": 1,
+      "status": "DELIVERED",
+      "customerName": "Michael Chen",
+      "customerPhone": "+1234567895",
+      "customerAddress": "303 Cedar St, City",
+      "createdAt": "2025-07-31T15:00:00.000Z"
+    },
+    {
+      "id": "order7",
+      "userId": "7",
+      "productId": "7",
+      "vendorId": "1",
+      "productTitle": "4K TV",
+      "price": 799.99,
+      "quantity": 1,
+      "status": "EN_PREPARATION",
+      "customerName": "Sarah Davis",
+      "customerPhone": "+1234567896",
+      "customerAddress": "404 Elm St, City",
+      "createdAt": "2025-07-31T16:00:00.000Z"
+    },
+    {
+      "id": "order8",
+      "userId": "8",
+      "productId": "8",
+      "vendorId": "4",
+      "productTitle": "Wireless Mouse",
+      "price": 29.99,
+      "quantity": 5,
+      "status": "SHIPPED",
+      "customerName": "David Lee",
+      "customerPhone": "+1234567897",
+      "customerAddress": "505 Walnut St, City",
+      "createdAt": "2025-07-31T17:00:00.000Z"
+    }
+  ],
+  "brands": [
+    {
+      "id": "brand1",
+      "name": "TechPro"
+    },
+    {
+      "id": "brand2",
+      "name": "AudioMax"
+    },
+    {
+      "id": "brand3",
+      "name": "SmartWear"
+    },
+    {
+      "id": "brand4",
+      "name": "GameOn"
+    },
+    {
+      "id": "brand5",
+      "name": "ErgoGear"
+    },
+    {
+      "id": "brand6",
+      "name": "FashionCo"
+    },
+    {
+      "id": "brand7",
+      "name": "Bookworm"
+    },
+    {
+      "id": "brand8",
+      "name": "SportGear"
+    }
+  ],
+  "attributes": [
+    {
+      "id": "attr_color",
+      "name": "Couleur",
+      "slug": "couleur",
+      "type": "select",
+      "isRequired": false,
+      "isFilterable": true,
+      "options": [
+        {
+          "value": "noir",
+          "label": "Noir"
+        },
+        {
+          "value": "blanc",
+          "label": "Blanc"
+        },
+        {
+          "value": "rouge",
+          "label": "Rouge"
+        },
+        {
+          "value": "bleu",
+          "label": "Bleu"
+        },
+        {
+          "value": "vert",
+          "label": "Vert"
+        }
+      ],
+      "order": 1,
+      "isActive": true,
+      "createdAt": "2023-10-27T10:00:00Z",
+      "updatedAt": "2023-10-27T10:00:00Z"
+    },
+    {
+      "id": "attr_size",
+      "name": "Taille",
+      "slug": "taille",
+      "type": "select",
+      "isRequired": false,
+      "isFilterable": true,
+      "options": [
+        {
+          "value": "xs",
+          "label": "XS"
+        },
+        {
+          "value": "s",
+          "label": "S"
+        },
+        {
+          "value": "m",
+          "label": "M"
+        },
+        {
+          "value": "l",
+          "label": "L"
+        },
+        {
+          "value": "xl",
+          "label": "XL"
+        },
+        {
+          "value": "xxl",
+          "label": "XXL"
+        }
+      ],
+      "order": 2,
+      "isActive": true,
+      "createdAt": "2023-10-27T10:00:00Z",
+      "updatedAt": "2023-10-27T10:00:00Z"
+    },
+    {
+      "id": "attr_storage",
+      "name": "Stockage",
+      "slug": "stockage",
+      "type": "select",
+      "isRequired": false,
+      "isFilterable": true,
+      "options": [
+        {
+          "value": "64gb",
+          "label": "64 GB"
+        },
+        {
+          "value": "128gb",
+          "label": "128 GB"
+        },
+        {
+          "value": "256gb",
+          "label": "256 GB"
+        },
+        {
+          "value": "512gb",
+          "label": "512 GB"
+        },
+        {
+          "value": "1tb",
+          "label": "1 TB"
+        }
+      ],
+      "order": 3,
+      "isActive": true,
+      "createdAt": "2023-10-27T10:00:00Z",
+      "updatedAt": "2023-10-27T10:00:00Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review_001",
+      "productId": "prod_iphone_15",
+      "userId": "user_3",
+      "rating": 5,
+      "title": "Excellent smartphone !",
+      "comment": "L'iPhone 15 Pro est vraiment impressionnant. La qualit\u00e9 de l'appareil photo est exceptionnelle et les performances sont au top.",
+      "isVerifiedPurchase": true,
+      "isApproved": true,
+      "helpfulCount": 12,
+      "createdAt": "2024-01-20T10:00:00Z",
+      "updatedAt": "2024-01-20T10:00:00Z"
+    },
+    {
+      "id": "review_002",
+      "productId": "prod_airpods_pro",
+      "userId": "user_3",
+      "rating": 4,
+      "title": "Tr\u00e8s bonne qualit\u00e9 audio",
+      "comment": "Les AirPods Pro offrent une excellente qualit\u00e9 audio et la r\u00e9duction de bruit fonctionne tr\u00e8s bien. Seul b\u00e9mol : l'autonomie pourrait \u00eatre meilleure.",
+      "isVerifiedPurchase": true,
+      "isApproved": true,
+      "helpfulCount": 8,
+      "createdAt": "2024-01-22T14:30:00Z",
+      "updatedAt": "2024-01-22T14:30:00Z"
+    }
+  ],
+  "coupons": [
+    {
+      "id": "coupon_welcome",
+      "code": "WELCOME10",
+      "name": "Bienvenue - 10% de r\u00e9duction",
+      "description": "10% de r\u00e9duction pour les nouveaux clients",
+      "type": "percentage",
+      "value": 10,
+      "minOrderAmount": 100000,
+      "maxDiscountAmount": 50000,
+      "usageLimit": 1000,
+      "usageCount": 245,
+      "isActive": true,
+      "validFrom": "2024-01-01T00:00:00Z",
+      "validUntil": "2024-12-31T23:59:59Z",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "settings": {
+    "site": {
+      "name": "Isaraya Store",
+      "description": "Votre marketplace de confiance",
+      "logo": "/logo.png",
+      "favicon": "/favicon.ico",
+      "currency": "XOF",
+      "language": "fr",
+      "timezone": "Africa/Abidjan"
+    },
+    "shipping": {
+      "freeShippingThreshold": 50000,
+      "defaultShippingCost": 5000,
+      "expressShippingCost": 10000
+    },
+    "tax": {
+      "defaultTaxRate": 0.2,
+      "taxIncluded": false
+    }
+  }
+}

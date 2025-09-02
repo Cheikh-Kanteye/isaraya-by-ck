@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. All colors MUST be HSL. */
+@layer base {
+  :root {
+    /* ISaraya Brand Colors - Light Theme */
+    --background: 0 0% 100%; /* Blanc principal */
+    --foreground: 208 58% 15%; /* Bleu foncé pour texte principal */
+    --card: 0 0% 100%; /* Blanc pour les cards */
+    --card-foreground: 208 58% 15%; /* Bleu foncé pour texte sur cards */
+    --popover: 0 0% 100%;
+    --popover-foreground: 208 58% 15%;
+    --primary: 26 100% 50%; /* Orange vif #FF7A00 - conservé */
+    --primary-foreground: 0 0% 100%; /* Blanc sur orange */
+    --secondary: 225 14% 96%; /* Gris très clair */
+    --secondary-foreground: 208 58% 15%;
+    --muted: 220 13% 95%; /* Gris très clair pour éléments muted */
+    --muted-foreground: 220 9% 38%;
+    --accent: 26 100% 50%; /* Orange accent - conservé */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 85%; /* More visible borders for readability */
+    --input: 220 13% 96%; /* Slightly darker for better field contrast */
+    --ring: 26 100% 50%;
+    --radius: 0.75rem;
+
+    /* ISaraya Custom Design Tokens - Light Theme */
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(0 0% 100%),
+      hsl(225 14% 98%)
+    );
+    --gradient-accent: linear-gradient(
+      135deg,
+      hsl(26 100% 50%),
+      hsl(26 100% 55%)
+    );
+    --shadow-elegant: 0 10px 30px -10px hsl(220 13% 91% / 0.5);
+    --shadow-glow: 0 0 40px hsl(26 100% 50% / 0.15);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Sidebar Light Theme */
+    --sidebar-background: 225 14% 98%; /* Gris très clair */
+    --sidebar-foreground: 208 58% 15%; /* Bleu foncé */
+    --sidebar-primary: 26 100% 50%; /* Orange principal */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 225 14% 96%;
+    --sidebar-accent-foreground: 208 58% 15%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 26 100% 50%;
+  }
+
+  .dark {
+    /* Conservation du thème dark existant pour la bascule */
+    --background: 208 58% 8%; /* Bleu nuit principal */
+    --foreground: 0 0% 100%; /* Blanc pour texte principal */
+    --card: 208 58% 12%; /* Carte légèrement plus claire que le background */
+    --card-foreground: 0 0% 100%; /* Texte blanc sur cartes */
+    --popover: 208 58% 12%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 26 100% 50%; /* Orange vif */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 208 58% 15%; /* Bleu foncé pour secondary */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 208 58% 15%; /* Bleu foncé muted */
+    --muted-foreground: 0 0% 82%;
+    --accent: 26 100% 50%; /* Orange accent */
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 208 58% 24%; /* Stronger border in dark for clearer separation */
+    --input: 208 58% 16%;
+    --ring: 26 100% 50%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Adaptation des classes glass pour le thème light */
+  .glass-card {
+    @apply bg-gradient-to-br from-white/80 to-white/60 backdrop-blur-lg border border-border/20;
+  }
+  .glass-card-2 {
+    @apply bg-gradient-to-br from-white/90 to-white/70 backdrop-blur-xl border border-border/30;
+  }
+
+  .container {
+    @apply !max-w-[1500px];
+  }
+  .ais-SearchBox-input:focus {
+    @apply !right-2 !ring-primary;
+  }
+  .ais-RangeInput-input:focus,
+  .ais-SortBy-select:focus {
+    @apply !right-1 !ring-primary;
+  }
+}

@@ -1,0 +1,12 @@
+services:
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    ports:
+      - "7700:7700"
+    volumes:
+      - meili_data:/data.ms
+    environment:
+      MEILI_MASTER_KEY: OtGWrLn9IJ040F+0FzqAuUBtRa0mfK0K9pbaTfU8goQe44yI1ZFfz18cq3ps79l/SZbFc49HSmoJ2RaNDe4jhQ
+
+volumes:
+  meili_data:
