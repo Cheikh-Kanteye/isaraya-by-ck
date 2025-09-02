@@ -125,14 +125,14 @@ export function useCreateOrder() {
 }
 
 // Hook pour mettre à jour le statut d'une commande
-export function useUpdateOrderStatus() {
+export function useUpdateOrder() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, status }: { id: string; status: Order['status'] }) =>
-      apiService.orders.updateStatus(id, status),
+    mutationFn: ({ id, data }: { id: string; data: Partial<Order> }) =>
+      apiService.orders.update(id, data),
 
-    onMutate: async ({ id, status }) => {
+    onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.orders.all });
 
       const previousData = queryClient.getQueriesData({ queryKey: queryKeys.orders.all });
@@ -141,14 +141,14 @@ export function useUpdateOrderStatus() {
       queryClient.setQueriesData({ queryKey: queryKeys.orders.lists() }, (oldData: any) => {
         if (!oldData || !Array.isArray(oldData)) return oldData;
         return oldData.map((order: Order) => 
-          order.id === id ? { ...order, status, updatedAt: new Date().toISOString() } : order
+          order.id === id ? { ...order, ...data, updatedAt: new Date().toISOString() } : order
         );
       });
 
       // Mettre à jour le cache de détail
       queryClient.setQueryData(queryKeys.orders.detail(id), (oldOrder: Order | undefined) => {
         if (!oldOrder) return oldOrder;
-        return { ...oldOrder, status, updatedAt: new Date().toISOString() };
+        return { ...oldOrder, ...data, updatedAt: new Date().toISOString() };
       });
 
       toast.success('Statut mis à jour...', { duration: 1500 });

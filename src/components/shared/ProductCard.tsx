@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
 import { Product } from "@/types";
-import { useCartStore } from "@/stores";
+import { useAddToCart } from "@/hooks/queries";
 import { useNavigate } from "react-router-dom";
 import FallbackImage from "@/components/shared/FallbackImage"; // Importation du composant FallbackImage
+import { OptimisticLoader } from "@/components/shared/OptimisticLoader";
 
 interface ProductCardProps {
   product: Product;
@@ -22,11 +23,11 @@ const ProductCard = ({
   onToggleLike,
 }: ProductCardProps) => {
   const navigate = useNavigate();
-  const { addToCart } = useCartStore();
+  const addToCartMutation = useAddToCart();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    addToCart(product);
+    addToCartMutation.mutate({ product, quantity: 1 });
   };
 
   const handleViewProduct = (e: React.MouseEvent) => {
@@ -114,15 +115,23 @@ const ProductCard = ({
             onClick={handleViewProduct}
             variant="outline"
             className="flex-1 text-sm border-gray-300 text-gray-800 hover:bg-gray-100"
+            disabled={addToCartMutation.isPending}
           >
             Voir produits
           </Button>
           <Button
             onClick={handleAddToCart}
             className="flex-1 bg-primary/90 hover:bg-primary text-white text-sm flex items-center gap-2"
+            disabled={addToCartMutation.isPending}
           >
-            <ShoppingCart className="h-4 w-4" />
-            Ajouter
+            {addToCartMutation.isPending ? (
+              <OptimisticLoader isLoading={true} />
+            ) : (
+              <>
+                <ShoppingCart className="h-4 w-4" />
+                Ajouter
+              </>
+            )}
           </Button>
         </div>
       </div>

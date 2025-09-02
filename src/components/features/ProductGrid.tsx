@@ -1,10 +1,11 @@
 import { useState } from "react";
-import ProductCard from "@/components/shared/ProductCard";
+import { ProductCard } from "@/components/products/ProductCard";
 import { Loader2 } from "lucide-react";
-import { useProductStore } from "@/stores";
+import { useProducts } from "@/hooks/queries";
+import { QueryErrorBoundary } from "@/components/shared/QueryErrorBoundary";
 
 const ProductGrid = () => {
-  const { products, isLoading, error } = useProductStore();
+  const { data: products = [], isLoading, error } = useProducts({ _limit: 8 });
   const [displayedCount, setDisplayedCount] = useState(8);
   const [loadingMore, setLoadingMore] = useState(false);
 
@@ -37,7 +38,7 @@ const ProductGrid = () => {
       <section className="py-12 bg-secondary/30">
         <div className="container mx-auto px-4">
           <div className="text-center text-red-500">
-            <p>Erreur lors du chargement des produits: {error}</p>
+            <p>Erreur lors du chargement des produits: {error.message}</p>
           </div>
         </div>
       </section>
@@ -48,6 +49,7 @@ const ProductGrid = () => {
   const hasMoreProducts = displayedCount < products.length;
 
   return (
+    <QueryErrorBoundary>
     <section className="py-12 bg-secondary/30">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
@@ -91,6 +93,7 @@ const ProductGrid = () => {
         </div>
       </div>
     </section>
+    </QueryErrorBoundary>
   );
 };
 

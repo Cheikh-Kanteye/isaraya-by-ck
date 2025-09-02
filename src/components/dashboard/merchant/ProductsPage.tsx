@@ -291,8 +291,6 @@ const ProductsPage: React.FC = () => {
               product={selectedProduct}
               onSuccess={handleFormSuccess}
               onCancel={() => setIsDialogOpen(false)}
-              createMutation={createProductMutation}
-              updateMutation={updateProductMutation}
             />
           </DialogContent>
         </Dialog>

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAuthStore } from "@/stores";
-import { useCreateProduct, useUpdateProduct } from "@/hooks/queries/useProductQueries";
+import { useCreateProduct, useUpdateProduct } from "@/hooks/queries";
 import { apiService } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "sonner";
+import { OptimisticLoader } from "@/components/shared/OptimisticLoader";
 import type { Product, Image } from "@/types"; // Importation de Image
 import ImageUpload from "@/components/ui/ImageUpload";
 import FallbackImage from "@/components/shared/FallbackImage"; // Importation du composant FallbackImage
@@ -71,6 +71,8 @@ interface ProductFormProps {
   product?: Product | null;
   onSuccess: () => void;
   onCancel: () => void;
+  createMutation?: ReturnType<typeof useCreateProduct>;
+  updateMutation?: ReturnType<typeof useUpdateProduct>;
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({
@@ -78,10 +80,17 @@ const ProductForm: React.FC<ProductFormProps> = ({
   product,
   onSuccess,
   onCancel,
+  createMutation,
+  updateMutation,
 }) => {
   const { user } = useAuthStore();
-  const createProductMutation = useCreateProduct();
-  const updateProductMutation = useUpdateProduct();
+  const defaultCreateMutation = useCreateProduct();
+  const defaultUpdateMutation = useUpdateProduct();
+  
+  // Utiliser les mutations passées en props ou les mutations par défaut
+  const createProductMutation = createMutation || defaultCreateMutation;
+  const updateProductMutation = updateMutation || defaultUpdateMutation;
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<ProductFormData>({
@@ -134,7 +143,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
     if (mode === "view") return;
 
     if (!user) {
-      toast.error("Vous devez être connecté pour effectuer cette action.");
       return;
     }
 
@@ -145,13 +153,11 @@ const ProductForm: React.FC<ProductFormProps> = ({
       // Step 1: Upload image if provided
       let imageUrl = "";
       if (data.image && data.image instanceof File) {
-        toast.info("Téléchargement de l'image...");
         const uploadResponse = await apiService.images.upload(data.image);
         
         if (uploadResponse.success && uploadResponse.data) {
           uploadedImageData = uploadResponse.data;
           imageUrl = uploadedImageData.url;
-          toast.success("Image téléchargée avec succès");
         } else {
           throw new Error("Échec du téléchargement de l'image");
         }
@@ -187,13 +193,11 @@ const ProductForm: React.FC<ProductFormProps> = ({
       try {
         if (mode === "create") {
           await createProductMutation.mutateAsync(productData as any);
-          toast.success("Produit créé avec succès");
         } else if (mode === "edit" && product) {
           await updateProductMutation.mutateAsync({
             id: product.id,
             data: productData as any
           });
-          toast.success("Produit mis à jour avec succès");
         }
 
         onSuccess();
@@ -212,11 +216,6 @@ const ProductForm: React.FC<ProductFormProps> = ({
 
     } catch (error) {
       console.error('Product submission error:', error);
-      toast.error(
-        `Erreur lors de ${
-          mode === "create" ? "la création" : "la mise à jour"
-        } du produit`
-      );
     } finally {
       setIsSubmitting(false);
     }
@@ -471,6 +470,17 @@ const ProductForm: React.FC<ProductFormProps> = ({
               ? "Créer le produit"
               : "Mettre à jour"}
           </Button>
+        </div>
+        
+        {/* Status de la mutation */}
+        <div className="flex justify-center">
+          <OptimisticLoader
+            isLoading={createProductMutation.isPending || updateProductMutation.isPending}
+            isSuccess={createProductMutation.isSuccess || updateProductMutation.isSuccess}
+            isError={createProductMutation.isError || updateProductMutation.isError}
+            successMessage={mode === "create" ? "Produit créé!" : "Produit mis à jour!"}
+            errorMessage={createProductMutation.error?.message || updateProductMutation.error?.message}
+          />
         </div>
       </form>
     </Form>

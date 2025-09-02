@@ -132,10 +132,10 @@ export function useUpdateUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ userId, data }: { userId: string; data: Partial<User> }) =>
-      apiService.users.update(userId, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<User> }) =>
+      apiService.users.update(id, data),
 
-    onMutate: async ({ userId, data }) => {
+    onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.users.all });
 
       const previousData = queryClient.getQueriesData({ queryKey: queryKeys.users.all });
@@ -144,11 +144,11 @@ export function useUpdateUser() {
       queryClient.setQueriesData({ queryKey: queryKeys.users.lists() }, (oldData: any) => {
         if (!oldData || !Array.isArray(oldData)) return oldData;
         return oldData.map((user: User) => 
-          user.userId === userId ? { ...user, ...data, updatedAt: new Date().toISOString() } : user
+          user.id === id ? { ...user, ...data, updatedAt: new Date().toISOString() } : user
         );
       });
 
-      queryClient.setQueryData(queryKeys.users.detail(userId), (oldUser: User | undefined) => {
+      queryClient.setQueryData(queryKeys.users.detail(id), (oldUser: User | undefined) => {
         if (!oldUser) return oldUser;
         return { ...oldUser, ...data, updatedAt: new Date().toISOString() };
       });
@@ -158,7 +158,7 @@ export function useUpdateUser() {
       return { previousData };
     },
 
-    onError: (error, { userId }, context) => {
+    onError: (error, { id }, context) => {
       if (context?.previousData) {
         context.previousData.forEach(([queryKey, data]) => {
           queryClient.setQueryData(queryKey, data);
@@ -170,11 +170,11 @@ export function useUpdateUser() {
     },
 
     onSuccess: (updatedUser) => {
-      queryClient.setQueryData(queryKeys.users.detail(updatedUser.userId), updatedUser);
+      queryClient.setQueryData(queryKeys.users.detail(updatedUser.id), updatedUser);
       
       if (updatedUser.roles.some(role => role.name === 'MERCHANT')) {
         queryClient.invalidateQueries({ queryKey: queryKeys.users.merchants() });
-        queryClient.setQueryData(queryKeys.users.merchant(updatedUser.userId), updatedUser);
+        queryClient.setQueryData(queryKeys.users.merchant(updatedUser.id), updatedUser);
       }
 
       toast.success('Utilisateur modifié avec succès!');
@@ -191,9 +191,9 @@ export function useDeleteUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (userId: string) => apiService.users.delete(userId),
+    mutationFn: (id: string) => apiService.users.delete(id),
 
-    onMutate: async (deletedUserId) => {
+    onMutate: async (deletedId) => {
       await queryClient.cancelQueries({ queryKey: queryKeys.users.all });
 
       const previousData = queryClient.getQueriesData({ queryKey: queryKeys.users.all });
@@ -201,18 +201,18 @@ export function useDeleteUser() {
       // Retirer immédiatement l'utilisateur
       queryClient.setQueriesData({ queryKey: queryKeys.users.lists() }, (oldData: any) => {
         if (!oldData || !Array.isArray(oldData)) return oldData;
-        return oldData.filter((user: User) => user.userId !== deletedUserId);
+        return oldData.filter((user: User) => user.id !== deletedId);
       });
 
-      queryClient.removeQueries({ queryKey: queryKeys.users.detail(deletedUserId) });
-      queryClient.removeQueries({ queryKey: queryKeys.users.merchant(deletedUserId) });
+      queryClient.removeQueries({ queryKey: queryKeys.users.detail(deletedId) });
+      queryClient.removeQueries({ queryKey: queryKeys.users.merchant(deletedId) });
 
       toast.success('Utilisateur supprimé', { duration: 2000 });
 
       return { previousData };
     },
 
-    onError: (error, deletedUserId, context) => {
+    onError: (error, deletedId, context) => {
       if (context?.previousData) {
         context.previousData.forEach(([queryKey, data]) => {
           queryClient.setQueryData(queryKey, data);
@@ -238,10 +238,10 @@ export function useDeleteUser() {
 export function usePrefetchUser() {
   const queryClient = useQueryClient();
 
-  return (userId: string) => {
+  return (id: string) => {
     queryClient.prefetchQuery({
-      queryKey: queryKeys.users.detail(userId),
-      queryFn: () => apiService.users.get(userId),
+      queryKey: queryKeys.users.detail(id),
+      queryFn: () => apiService.users.get(id),
       staleTime: 5 * 60 * 1000,
     });
   };
