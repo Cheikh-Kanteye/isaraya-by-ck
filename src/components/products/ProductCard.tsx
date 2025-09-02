@@ -1,132 +1,181 @@
-import { Link } from 'react-router-dom';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Heart, Star, ShoppingCart, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Star, ShoppingCart } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { formatPrice } from '@/lib/utils';
-import { usePrefetchProduct } from '@/hooks/queries';
+import { useAddToCart, usePrefetchProduct } from '@/hooks/queries';
+import { useNavigate } from 'react-router-dom';
+import { OptimisticLoader } from '@/components/shared/OptimisticLoader';
+import FallbackImage from '@/components/shared/FallbackImage';
 import type { Product } from '@/types';
-import FallbackImage from "@/components/shared/FallbackImage"; // Importation du composant FallbackImage
 
-// Ce composant affiche une carte produit
 interface ProductCardProps {
   product: Product;
+  isLiked?: boolean;
+  onToggleLike?: (product: Product) => void;
   className?: string;
 }
 
-export function ProductCard({ product, className = "" }: ProductCardProps) {
+export function ProductCard({
+  product,
+  isLiked = false,
+  onToggleLike,
+  className = '',
+}: ProductCardProps) {
+  const navigate = useNavigate();
+  const addToCartMutation = useAddToCart();
   const prefetchProduct = usePrefetchProduct();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCartMutation.mutate({ product, quantity: 1 });
+  };
+
+  const handleViewProduct = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/product/${product.id}`);
+  };
+
+  const handleToggleLike = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleLike?.(product);
+  };
 
   const handleMouseEnter = () => {
     // Précharger les détails du produit au survol
     prefetchProduct(product.id);
   };
 
-  const primaryImage = product.images?.[0];
-  const imageUrl = primaryImage?.url || '/placeholder.svg';
-  const imageAlt = primaryImage?.altText || product.name;
-
   return (
-    <Card 
-      className={`group hover:shadow-lg transition-shadow duration-200 ${className}`}
+    <div
+      className={`rounded-lg border border-gray-200 hover:shadow-lg transition-all duration-300 group overflow-hidden bg-white cursor-pointer ${className}`}
+      onClick={handleViewProduct}
       onMouseEnter={handleMouseEnter}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && handleViewProduct(e as any)}
     >
-      <CardContent className="p-0">
-        <Link to={`/product/${product.id}`}>
-          <div className="relative overflow-hidden rounded-t-lg">
-            <FallbackImage // Remplacement de <img> par <FallbackImage>
-              src={imageUrl}
-              alt={imageAlt}
-              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200"
-              loading="lazy"
-            />
-            {product.isOnSale && (
-              <Badge 
-                variant="destructive" 
-                className="absolute top-2 left-2"
-              >
-                Promo
-              </Badge>
-            )}
-            {product.condition === 'neuf' && (
-              <Badge 
-                variant="secondary" 
-                className="absolute top-2 right-2"
-              >
-                Neuf
-              </Badge>
-            )}
+      {/* Image Container */}
+      <div className="relative aspect-square overflow-hidden">
+        <FallbackImage
+          src={product.images?.[0]?.url || '/placeholder.svg'}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+        
+        {/* Badges */}
+        <div className="absolute top-2 left-2">
+          <Badge variant="default" className="text-xs bg-primary/10 text-primary">
+            {product.condition || 'Neuf'}
+          </Badge>
+        </div>
+
+        {/* Bouton favori */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleToggleLike}
+          className={`absolute top-2 right-2 h-8 w-8 p-0 ${
+            isLiked ? 'text-red-500' : 'text-gray-500'
+          } hover:text-red-500 bg-white/80 hover:bg-white`}
+        >
+          <Heart className="h-4 w-4" fill={isLiked ? 'currentColor' : 'none'} />
+        </Button>
+
+        {/* Bouton aperçu rapide */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleViewProduct}
+          className="absolute bottom-2 right-2 h-8 w-8 p-0 text-gray-600 hover:text-primary bg-white/80 hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <Eye className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {/* Content */}
+      <div className="p-4 space-y-3">
+        <h3 className="font-medium text-gray-900 line-clamp-2 text-sm leading-tight group-hover:text-primary transition-colors">
+          {product.name}
+        </h3>
+
+        {/* Rating */}
+        <div className="flex items-center space-x-1 text-xs">
+          <div className="flex items-center">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className={`h-3 w-3 ${
+                  i < Math.floor(product.rating || 0)
+                    ? 'fill-yellow-400 text-yellow-400'
+                    : 'text-gray-300'
+                }`}
+              />
+            ))}
           </div>
-        </Link>
-      </CardContent>
-      
-      <CardFooter className="p-4 space-y-3">
-        <div className="w-full space-y-2">
-          <Link 
-            to={`/product/${product.id}`}
-            className="block"
-          >
-            <h3 className="font-semibold text-sm line-clamp-2 hover:text-primary transition-colors">
-              {product.name}
-            </h3>
-          </Link>
-          
-          {/* Rating */}
-          {product.rating && (
-            <div className="flex items-center gap-1">
-              <div className="flex items-center">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`h-3 w-3 ${
-                      i < Math.floor(product.rating || 0)
-                        ? 'fill-yellow-400 text-yellow-400'
-                        : 'text-gray-300'
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-xs text-muted-foreground">
-                ({product.reviewCount || 0})
+          <span className="text-gray-600">({product.rating || 0})</span>
+        </div>
+
+        {/* Prix */}
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <div className="flex items-center space-x-2">
+              <span className="text-lg font-bold text-gray-900">
+                {formatPrice(product.price)}
               </span>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <span className="text-sm line-through text-gray-500">
+                  {formatPrice(product.originalPrice)}
+                </span>
+              )}
             </div>
+          </div>
+        </div>
+
+        {/* Stock */}
+        <div className="text-xs">
+          {product.stock > 0 ? (
+            <span className="text-green-600">En stock ({product.stock})</span>
+          ) : (
+            <span className="text-red-600">Rupture de stock</span>
           )}
-          
-          {/* Prix */}
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-lg">
-              {formatPrice(product.price)}
-            </span>
-            {product.originalPrice && product.originalPrice > product.price && (
-              <span className="text-sm text-muted-foreground line-through">
-                {formatPrice(product.originalPrice)}
-              </span>
-            )}
-          </div>
-          
-          {/* Stock */}
-          <div className="text-xs text-muted-foreground">
-            {product.stock > 0 ? (
-              <span className="text-green-600">
-                En stock ({product.stock} disponibles)
-              </span>
-            ) : (
-              <span className="text-red-600">Rupture de stock</span>
-            )}
-          </div>
-          
-          {/* Bouton d'ajout au panier */}
-          <Button 
-            size="sm" 
-            className="w-full"
-            disabled={product.stock === 0}
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-2 pt-2">
+          <Button
+            onClick={handleViewProduct}
+            variant="outline"
+            className="flex-1 text-sm border-gray-300 text-gray-800 hover:bg-gray-100"
+            disabled={addToCartMutation.isPending}
           >
-            <ShoppingCart className="h-4 w-4 mr-2" />
-            {product.stock > 0 ? 'Ajouter au panier' : 'Indisponible'}
+            Voir détails
+          </Button>
+          <Button
+            onClick={handleAddToCart}
+            className="flex-1 bg-primary/90 hover:bg-primary text-white text-sm"
+            disabled={product.stock === 0 || addToCartMutation.isPending}
+          >
+            {addToCartMutation.isPending ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <>
+                <ShoppingCart className="h-4 w-4 mr-1" />
+                Ajouter
+              </>
+            )}
           </Button>
         </div>
-      </CardFooter>
-    </Card>
+
+        {/* Status de la mutation */}
+        {addToCartMutation.isPending && (
+          <OptimisticLoader
+            isLoading={true}
+            className="justify-center"
+          />
+        )}
+      </div>
+    </div>
   );
 }
 
+export default ProductCard;

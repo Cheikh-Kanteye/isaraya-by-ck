@@ -1,24 +1,19 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiService } from "@/services/api";
-import { queryKeys } from "@/services/queryClient";
-import type { Order, MerchantOrder, MerchantOrdersResponse } from "@/types";
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { apiService } from '@/services/api';
+import { queryKeys, handleQueryError } from '@/lib/queryClient';
+import { toast } from 'sonner';
+import type { Order, CreateOrderDto } from '@/types';
 
-// Interface pour les paramètres de filtrage des commandes
-interface OrdersParams {
-  userId?: string;
-  merchantId?: string; // Renamed from vendorId
-  status?: string;
-  _limit?: number;
-  _page?: number;
-  _sort?: string;
-  _order?: "asc" | "desc";
-}
-
-// Hook pour récupérer toutes les commandes avec filtres
-export function useOrders(params: OrdersParams = {}) {
+// Hook pour récupérer toutes les commandes
+export function useOrders(params: any = {}) {
   return useQuery({
     queryKey: queryKeys.orders.list(params),
     queryFn: () => apiService.orders.getAll(params),
+    staleTime: 1 * 60 * 1000, // 1 minute pour les commandes
+    select: (data) => data || [],
+    meta: {
+      errorMessage: 'Erreur lors du chargement des commandes',
+    },
   });
 }
 
@@ -28,6 +23,7 @@ export function useOrder(id: string) {
     queryKey: queryKeys.orders.detail(id),
     queryFn: () => apiService.orders.get(id),
     enabled: !!id,
+    staleTime: 30 * 1000, // 30 secondes pour une commande spécifique
   });
 }
 
@@ -37,117 +33,147 @@ export function useOrdersByUser(userId: string) {
     queryKey: queryKeys.orders.byUser(userId),
     queryFn: () => apiService.orders.getAll({ userId }),
     enabled: !!userId,
+    staleTime: 1 * 60 * 1000,
+    select: (data) => data || [],
   });
 }
 
-// Hook pour récupérer les commandes d'un vendeur
+// Hook pour récupérer les commandes d'un marchand
 export function useOrdersByMerchant(merchantId: string) {
-  return useQuery<MerchantOrder[]>({
+  return useQuery({
     queryKey: queryKeys.orders.byMerchant(merchantId),
     queryFn: async () => {
-      const response: MerchantOrdersResponse =
-        await apiService.orders.getMerchantOrders(merchantId);
+      const response = await apiService.orders.getMerchantOrders(merchantId);
       return response.data;
     },
     enabled: !!merchantId,
+    staleTime: 1 * 60 * 1000,
+    select: (data) => data || [],
   });
 }
 
-// Hook pour récupérer les commandes récentes
-export function useRecentOrders(limit: number = 10) {
-  return useQuery({
-    queryKey: queryKeys.orders.recent(),
-    queryFn: () =>
-      apiService.orders.getAll({
-        _limit: limit,
-        _sort: "createdAt",
-        _order: "desc",
-      }),
-    staleTime: 2 * 60 * 1000, // 2 minutes pour les commandes récentes
-  });
-}
-
-// Hook pour créer une commande
+// Hook pour créer une commande avec optimistic update
 export function useCreateOrder() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (order: Omit<Order, "id" | "createdAt">) =>
+    mutationFn: (order: Omit<Order, 'id' | 'createdAt' | 'updatedAt'>) =>
       apiService.orders.createOrder(order),
-    onSuccess: (newOrderResponse) => {
-      // Invalider les listes de commandes
-      queryClient.invalidateQueries({ queryKey: queryKeys.orders.lists() });
 
-      // Extraire l'ID de la commande depuis la réponse imbriquée
-      const orderId = newOrderResponse.data.data.id;
+    onMutate: async (newOrder) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.orders.all });
 
-      // Ajouter la nouvelle commande au cache si nécessaire
-      queryClient.setQueryData(
-        queryKeys.orders.detail(orderId),
-        newOrderResponse
-      );
+      const previousData = queryClient.getQueriesData({ queryKey: queryKeys.orders.all });
 
-      // Invalider les commandes par utilisateur si applicable
-      const clientId = newOrderResponse.data.data.clientId;
-      if (clientId) {
-        queryClient.invalidateQueries({
-          queryKey: queryKeys.orders.byUser(clientId),
+      // Créer une commande temporaire
+      const tempOrder: Order = {
+        ...newOrder,
+        id: `temp-${Date.now()}`,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+
+      // Ajouter la commande temporaire aux listes
+      queryClient.setQueriesData({ queryKey: queryKeys.orders.lists() }, (oldData: any) => {
+        if (!oldData) return [tempOrder];
+        if (Array.isArray(oldData)) {
+          return [tempOrder, ...oldData];
+        }
+        return oldData;
+      });
+
+      toast.success('Commande en cours de création...', { duration: 2000 });
+
+      return { previousData, tempOrder };
+    },
+
+    onError: (error, newOrder, context) => {
+      // Rollback
+      if (context?.previousData) {
+        context.previousData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data);
         });
       }
 
-      // Invalider les commandes par vendeur si applicable
-      const merchantId = newOrderResponse.data.data.merchantId;
-      if (merchantId) {
-        queryClient.invalidateQueries({
-          queryKey: queryKeys.orders.byMerchant(merchantId),
+      const errorMessage = handleQueryError(error);
+      toast.error(`Échec de la création de commande: ${errorMessage}`);
+    },
+
+    onSuccess: (response, variables, context) => {
+      // Remplacer la commande temporaire par la vraie commande
+      if (context?.tempOrder && response.data?.data) {
+        const realOrder = response.data.data;
+        
+        queryClient.setQueriesData({ queryKey: queryKeys.orders.lists() }, (oldData: any) => {
+          if (!oldData || !Array.isArray(oldData)) return oldData;
+          return oldData.map((order: Order) => 
+            order.id === context.tempOrder.id ? realOrder : order
+          );
         });
+
+        // Ajouter au cache de détail
+        queryClient.setQueryData(queryKeys.orders.detail(realOrder.id), realOrder);
       }
 
-      // Invalider les commandes récentes
-      queryClient.invalidateQueries({ queryKey: queryKeys.orders.recent() });
+      toast.success('Commande créée avec succès!');
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.orders.all });
     },
   });
 }
 
-// Hook pour mettre à jour une commande
-export function useUpdateOrder() {
+// Hook pour mettre à jour le statut d'une commande
+export function useUpdateOrderStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: Partial<Order> }) => {
-      // Si on met à jour uniquement le statut, utiliser la méthode dédiée
-      if (data.status && Object.keys(data).length === 1) {
-        return apiService.orders.updateStatus(id, data.status);
-      }
-      // Sinon utiliser la méthode update standard
-      return apiService.orders.update(id, data);
+    mutationFn: ({ id, status }: { id: string; status: Order['status'] }) =>
+      apiService.orders.updateStatus(id, status),
+
+    onMutate: async ({ id, status }) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.orders.all });
+
+      const previousData = queryClient.getQueriesData({ queryKey: queryKeys.orders.all });
+
+      // Mettre à jour optimiste du statut
+      queryClient.setQueriesData({ queryKey: queryKeys.orders.lists() }, (oldData: any) => {
+        if (!oldData || !Array.isArray(oldData)) return oldData;
+        return oldData.map((order: Order) => 
+          order.id === id ? { ...order, status, updatedAt: new Date().toISOString() } : order
+        );
+      });
+
+      // Mettre à jour le cache de détail
+      queryClient.setQueryData(queryKeys.orders.detail(id), (oldOrder: Order | undefined) => {
+        if (!oldOrder) return oldOrder;
+        return { ...oldOrder, status, updatedAt: new Date().toISOString() };
+      });
+
+      toast.success('Statut mis à jour...', { duration: 1500 });
+
+      return { previousData };
     },
+
+    onError: (error, { id }, context) => {
+      if (context?.previousData) {
+        context.previousData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data);
+        });
+      }
+
+      const errorMessage = handleQueryError(error);
+      toast.error(`Échec de la mise à jour: ${errorMessage}`);
+    },
+
     onSuccess: (updatedOrder) => {
-      // Mettre à jour la commande dans le cache
-      queryClient.setQueryData(
-        queryKeys.orders.detail(updatedOrder.id),
-        updatedOrder
-      );
+      queryClient.setQueryData(queryKeys.orders.detail(updatedOrder.id), updatedOrder);
+      toast.success('Statut mis à jour avec succès!');
+    },
 
-      // Invalider les listes de commandes
-      queryClient.invalidateQueries({ queryKey: queryKeys.orders.lists() });
-
-      // Invalider les commandes par utilisateur si applicable
-      if (updatedOrder.clientId) {
-        queryClient.invalidateQueries({
-          queryKey: queryKeys.orders.byUser(updatedOrder.clientId),
-        });
-      }
-
-      // Invalider les commandes par vendeur si applicable
-      if (updatedOrder.merchantId) {
-        queryClient.invalidateQueries({
-          queryKey: queryKeys.orders.byMerchant(updatedOrder.merchantId),
-        });
-      }
-
-      // Invalider les commandes récentes
-      queryClient.invalidateQueries({ queryKey: queryKeys.orders.recent() });
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.orders.all });
     },
   });
 }
@@ -158,14 +184,41 @@ export function useDeleteOrder() {
 
   return useMutation({
     mutationFn: (id: string) => apiService.orders.delete(id),
-    onSuccess: (_, deletedId) => {
-      // Supprimer la commande du cache
-      queryClient.removeQueries({
-        queryKey: queryKeys.orders.detail(deletedId),
+
+    onMutate: async (deletedId) => {
+      await queryClient.cancelQueries({ queryKey: queryKeys.orders.all });
+
+      const previousData = queryClient.getQueriesData({ queryKey: queryKeys.orders.all });
+
+      // Retirer immédiatement la commande
+      queryClient.setQueriesData({ queryKey: queryKeys.orders.lists() }, (oldData: any) => {
+        if (!oldData || !Array.isArray(oldData)) return oldData;
+        return oldData.filter((order: Order) => order.id !== deletedId);
       });
 
-      // Invalider toutes les listes de commandes
-      queryClient.invalidateQueries({ queryKey: queryKeys.orders.lists() });
+      queryClient.removeQueries({ queryKey: queryKeys.orders.detail(deletedId) });
+
+      toast.success('Commande supprimée', { duration: 2000 });
+
+      return { previousData };
+    },
+
+    onError: (error, deletedId, context) => {
+      if (context?.previousData) {
+        context.previousData.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data);
+        });
+      }
+
+      const errorMessage = handleQueryError(error);
+      toast.error(`Échec de la suppression: ${errorMessage}`);
+    },
+
+    onSuccess: () => {
+      toast.success('Commande supprimée définitivement!');
+    },
+
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.orders.all });
     },
   });
@@ -179,7 +232,34 @@ export function usePrefetchOrder() {
     queryClient.prefetchQuery({
       queryKey: queryKeys.orders.detail(id),
       queryFn: () => apiService.orders.get(id),
-      staleTime: 5 * 60 * 1000,
+      staleTime: 30 * 1000,
     });
   };
+}
+
+// Hook pour les statistiques de commandes
+export function useOrderStats(merchantId?: string) {
+  return useQuery({
+    queryKey: queryKeys.orders.stats(merchantId),
+    queryFn: async () => {
+      const orders = merchantId 
+        ? await apiService.orders.getAll({ merchantId })
+        : await apiService.orders.getAll();
+
+      // Calculer les statistiques
+      const totalOrders = orders.length;
+      const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+      const pendingOrders = orders.filter(order => order.status === 'PENDING').length;
+      const completedOrders = orders.filter(order => order.status === 'DELIVERED').length;
+
+      return {
+        totalOrders,
+        totalRevenue,
+        pendingOrders,
+        completedOrders,
+      };
+    },
+    staleTime: 2 * 60 * 1000,
+    enabled: true,
+  });
 }
